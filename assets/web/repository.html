@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repositori GitHub — Smart Campus Universitas Mulia</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --navy:#07101f; --navy2:#0b1d38; --navy3:#123059; --navy4:#1b3f70;
+ --gold:#ffc93c; --gold2:#ffe08a; --blue:#2f7bff; --teal:#22c1a4;
+ --ink:#0d1b2a; --muted:#5b6b80; --line:#e3e8f0; --bg:#f2f5fa;
+}
+body{font-family:'Segoe UI',Roboto,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:var(--navy4);text-decoration:none}
+a:hover{text-decoration:underline}
+.top{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(7,16,31,.35)}
+.top .inner{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:17px}
+.brand small{display:block;font-weight:500;font-size:10.5px;color:#a9c0dd;letter-spacing:.6px}
+.nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap;font-size:13.5px}
+.nav a{color:#dce8f7;padding:4px 2px;border-bottom:2px solid transparent}
+.nav a.on,.nav a:hover{border-color:var(--gold);color:#fff;text-decoration:none}
+.hero{background:radial-gradient(120% 140% at 50% -30%,var(--navy3) 0%,var(--navy2) 45%,var(--navy) 100%);color:#fff;padding:34px 16px 74px;text-align:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:auto 0 0 0;height:64px;background:linear-gradient(180deg,transparent,rgba(255,201,60,.14))}
+.hero h1{font-size:29px;letter-spacing:.3px;margin-bottom:10px;color:var(--gold2)}
+.hero p{max-width:720px;margin:0 auto;color:#c8d8ee;font-size:14px}
+.searchbar{max-width:720px;margin:22px auto 0;background:#fff;border-radius:12px;display:flex;gap:8px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;z-index:2}
+.searchbar input{flex:1;border:0;outline:0;padding:11px 12px;font-size:14px;color:var(--ink)}
+.searchbar button{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 20px;font-weight:700;cursor:pointer;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(13,27,42,.05)}
+.chip{display:inline-block;background:#eef3fb;color:var(--navy3);border:1px solid #d5e0f2;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700}
+.chip.gold{background:#fff5d9;border-color:#f5de9a;color:#8a6100}
+.chip.teal{background:#e4f7f2;border-color:#b9e9df;color:#0f6b58}
+.btn{display:inline-block;border:0;border-radius:9px;padding:10px 16px;font-weight:700;font-size:13.5px;cursor:pointer;background:var(--navy);color:#fff}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.ghost{background:#fff;color:var(--navy);border:1.6px solid var(--navy3)}
+.btn.sm{padding:7px 12px;font-size:12.5px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.g3{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.mkcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:8px;transition:.18s;border-left:4px solid var(--navy3)}
+.mkcard:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(11,29,56,.14);border-left-color:var(--gold)}
+.mkcard h4{font-size:14.5px;line-height:1.35;color:var(--navy2)}
+.mkcard .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--muted)}
+.mkcard p{font-size:12.6px;color:var(--muted)}
+.pager{display:flex;gap:6px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.pager button{min-width:36px;height:34px;border:1px solid #d9e1ee;background:#fff;border-radius:8px;cursor:pointer;font-weight:700;color:var(--navy2)}
+.pager button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.footer{background:linear-gradient(180deg,var(--gold2) 0%,var(--gold) 100%);color:#3a2c00;margin-top:34px;padding:26px 16px}
+.footer .cols{max-width:1180px;margin:0 auto;display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.footer h5{font-size:14px;margin-bottom:8px;color:#2c2200;text-transform:uppercase;letter-spacing:.5px}
+.footer ul{list-style:none;font-size:12.6px}
+.footer li{padding:3px 0}
+.footer .copy{max-width:1180px;margin:20px auto 0;border-top:1px solid rgba(58,44,0,.2);padding-top:12px;font-size:12px;text-align:center;color:#4a3a00}
+.tblwrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{background:var(--navy2);color:#fff;text-align:left;padding:10px 12px;font-size:12.5px;position:sticky;top:0}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#fafcff}
+.breadcrumb{font-size:12.5px;color:#9db4d4;margin-bottom:10px}
+.breadcrumb a{color:#cfe0f5}
+.section-title{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:17px;font-weight:800;color:var(--navy2)}
+.section-title:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--navy3),transparent)}
+.note{background:#f7faff;border:1px dashed #c8d8ee;border-radius:10px;padding:12px;font-size:12.8px;color:var(--navy3)}
+.cert{background:#fff;border:10px double var(--navy3);border-radius:4px;padding:26px 22px;text-align:center;position:relative;overflow:hidden}
+.cert:before{content:"";position:absolute;inset:8px;border:1.5px solid var(--gold);border-radius:2px;pointer-events:none}
+.cert h2{font-size:24px;letter-spacing:1.5px;color:var(--navy);text-transform:uppercase;margin-bottom:4px}
+.cert .sub{font-size:11.5px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.cert .who{font-size:26px;font-weight:800;color:var(--navy4);border-bottom:2px solid var(--gold);display:inline-block;padding:0 18px 4px;margin:10px 0}
+.cert .desc{font-size:13.4px;color:#33465c;max-width:640px;margin:12px auto 0}
+.cert .mkname{font-weight:800;color:var(--navy2)}
+.seal{width:96px;height:96px;border-radius:50%;border:3px solid var(--gold);background:radial-gradient(circle at 30% 30%,#fff8e3,var(--gold2));display:grid;place-items:center;margin:18px auto 8px;color:#7a5600;font-weight:900;font-size:11px;text-align:center;line-height:1.15;box-shadow:0 4px 14px rgba(255,201,60,.4)}
+.sign{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-size:12px;color:#33465c;flex-wrap:wrap}
+.sign div{flex:1;min-width:170px;text-align:center}
+.sign .line{border-top:1.5px solid var(--navy3);margin-bottom:5px;height:44px}
+.ribbon{position:absolute;top:14px;right:-46px;transform:rotate(38deg);background:var(--navy);color:var(--gold);font-size:11px;font-weight:800;letter-spacing:1px;padding:5px 52px}
+@media print{.top,.pager,.no-print,.footer{display:none!important}.hero{display:none}body{background:#fff}}
+@media(max-width:640px){.nav{gap:12px;font-size:12.5px}.hero h1{font-size:22px}.cert h2{font-size:18px}.cert .who{font-size:20px}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="inner">
+    <div class="brand"><span class="logo">M</span><span>PUSAT DATA<small>SMART CAMPUS UNIVERSITAS MULIA</small></span></div>
+    <nav class="nav">
+      <a href="index.html" class="">Profil</a>
+      <a href="kurikulum.html" class="">Akademik</a>
+      <a href="compiler.html" class="">Kompiler</a>
+      <a href="repository.html" class="on">Repositori</a>
+      <a href="index.html#panduan" class="">Panduan</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero" style="padding:24px 16px 52px">
+  <h1>Repositori &amp; Link GitHub</h1>
+  <p>Kumpulan repositori GitHub untuk setiap mata kuliah Program Studi S1 Informatika Universitas Mulia.
+  Simpan link repositori Anda, lalu salin ke halaman sertifikat mata kuliah sebagai bukti tugas/praktikum.</p>
+</div>
+<div class="wrap" style="margin-top:16px">
+  <div class="grid g3">
+    <div class="card"><h4 style="color:var(--navy2)">🐙 Repositori Aplikasi Smart Campus</h4>
+      <p style="font-size:12.7px;color:var(--muted)">Repo utama aplikasi Flutter (Dart) Smart Campus Universitas Mulia.</p>
+      <a class="btn sm gold" target="_blank" href="https://github.com/mulia-smart-campus/mulia_smart_campus">Buka Repo</a></div>
+    <div class="card"><h4 style="color:var(--navy2)">🌐 Repositori Web Akademik &amp; Sertifikat</h4>
+      <p style="font-size:12.7px;color:var(--muted)">Web Biro Akademik + halaman sertifikat 58 mata kuliah.</p>
+      <a class="btn sm gold" target="_blank" href="https://github.com/mulia-smart-campus/mulia-web-akademik">Buka Repo</a></div>
+    <div class="card"><h4 style="color:var(--navy2)">💻 Repositori Kompiler Daring</h4>
+      <p style="font-size:12.7px;color:var(--muted)">Kompiler C++, JavaScript, PHP, Python + backend opsional.</p>
+      <a class="btn sm gold" target="_blank" href="https://github.com/mulia-smart-campus/mulia-kompiler">Buka Repo</a></div>
+  </div>
+
+  <div class="section-title">Cara Mengunggah Tugas ke GitHub (3 langkah)</div>
+  <div class="note" style="line-height:1.9;font-family:Consolas,monospace;font-size:12.4px">
+    <b style="font-family:inherit">1) Inisialisasi &amp; commit</b><br>
+    git init<br>git add .<br>git commit -m "Tugas 000100 - Nama Mahasiswa"<br><br>
+    <b style="font-family:inherit">2) Sambungkan ke GitHub</b><br>
+    git branch -M main<br>git remote add origin https://github.com/USERNAME/NAMA-REPO.git<br><br>
+    <b style="font-family:inherit">3) Kirim</b><br>
+    git push -u origin main
+  </div>
+
+  <div class="section-title">58 Repositori Mata Kuliah</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+    <input id="q" placeholder="Cari mata kuliah…" style="flex:1;min-width:220px;padding:9px;border:1px solid var(--line);border-radius:9px">
+    <button class="btn sm gold" onclick="simpan()">💾 Simpan Link</button>
+    <button class="btn sm ghost" onclick="ekspor()">⬇ Ekspor JSON</button>
+    <button class="btn sm ghost" onclick="hapus()">🗑 Reset</button>
+  </div>
+  <div class="tblwrap" style="max-height:640px"><table id="tbl">
+    <thead><tr><th>#</th><th>Kode</th><th>Mata Kuliah</th><th>Sem</th><th>Nama Repo Saran</th><th>Aksi</th><th>Link Repo Anda</th></tr></thead>
+    <tbody><tr id="000100"><td>1</td><td>000100</td>
+            <td><a href="matkul/000100.html">Bahasa Indonesia</a></td><td>1</td>
+            <td><code style="font-size:11.6px">000100-bahasa-indonesia</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000100+OR+bahasa-indonesia&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000100-bahasa-indonesia&description=Tugas+dan+praktikum+bahasa-indonesia">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000100" placeholder="https://github.com/username/000100-bahasa-indonesia" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="000400"><td>2</td><td>000400</td>
+            <td><a href="matkul/000400.html">Pancasila</a></td><td>1</td>
+            <td><code style="font-size:11.6px">000400-pancasila</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000400+OR+pancasila&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000400-pancasila&description=Tugas+dan+praktikum+pancasila">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000400" placeholder="https://github.com/username/000400-pancasila" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="110400"><td>3</td><td>110400</td>
+            <td><a href="matkul/110400.html">Etika Profesi</a></td><td>1</td>
+            <td><code style="font-size:11.6px">110400-etika-profesi</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=110400+OR+etika-profesi&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=110400-etika-profesi&description=Tugas+dan+praktikum+etika-profesi">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="110400" placeholder="https://github.com/username/110400-etika-profesi" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="001000"><td>4</td><td>001000</td>
+            <td><a href="matkul/001000.html">Teknologi Informasi</a></td><td>1</td>
+            <td><code style="font-size:11.6px">001000-teknologi-informasi</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=001000+OR+teknologi-informasi&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=001000-teknologi-informasi&description=Tugas+dan+praktikum+teknologi-informasi">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="001000" placeholder="https://github.com/username/001000-teknologi-informasi" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="110100"><td>5</td><td>110100</td>
+            <td><a href="matkul/110100.html">Algoritma dan Pemrograman</a></td><td>1</td>
+            <td><code style="font-size:11.6px">110100-algoritma-dan-pemrograman</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=110100+OR+algoritma-dan-pemrograman&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=110100-algoritma-dan-pemrograman&description=Tugas+dan+praktikum+algoritma-dan-pemrograman">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="110100" placeholder="https://github.com/username/110100-algoritma-dan-pemrograman" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="110300"><td>6</td><td>110300</td>
+            <td><a href="matkul/110300.html">Bahasa Inggris</a></td><td>1</td>
+            <td><code style="font-size:11.6px">110300-bahasa-inggris</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=110300+OR+bahasa-inggris&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=110300-bahasa-inggris&description=Tugas+dan+praktikum+bahasa-inggris">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="110300" placeholder="https://github.com/username/110300-bahasa-inggris" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="110800"><td>7</td><td>110800</td>
+            <td><a href="matkul/110800.html">Logika Informatika</a></td><td>1</td>
+            <td><code style="font-size:11.6px">110800-logika-informatika</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=110800+OR+logika-informatika&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=110800-logika-informatika&description=Tugas+dan+praktikum+logika-informatika">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="110800" placeholder="https://github.com/username/110800-logika-informatika" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="110900"><td>8</td><td>110900</td>
+            <td><a href="matkul/110900.html">Matematika I</a></td><td>1</td>
+            <td><code style="font-size:11.6px">110900-matematika-i</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=110900+OR+matematika-i&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=110900-matematika-i&description=Tugas+dan+praktikum+matematika-i">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="110900" placeholder="https://github.com/username/110900-matematika-i" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111200"><td>9</td><td>111200</td>
+            <td><a href="matkul/111200.html">Interaksi Manusia dan Komputer</a></td><td>1</td>
+            <td><code style="font-size:11.6px">111200-interaksi-manusia-dan-komputer</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111200+OR+interaksi-manusia-dan-komputer&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111200-interaksi-manusia-dan-komputer&description=Tugas+dan+praktikum+interaksi-manusia-dan-komputer">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111200" placeholder="https://github.com/username/111200-interaksi-manusia-dan-komputer" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="000700"><td>10</td><td>000700</td>
+            <td><a href="matkul/000700.html">Pendidikan Kewarganegaraan</a></td><td>2</td>
+            <td><code style="font-size:11.6px">000700-pendidikan-kewarganegaraan</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000700+OR+pendidikan-kewarganegaraan&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000700-pendidikan-kewarganegaraan&description=Tugas+dan+praktikum+pendidikan-kewarganegaraan">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000700" placeholder="https://github.com/username/000700-pendidikan-kewarganegaraan" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111700"><td>11</td><td>111700</td>
+            <td><a href="matkul/111700.html">Aljabar Linier dan Matriks</a></td><td>2</td>
+            <td><code style="font-size:11.6px">111700-aljabar-linier-dan-matriks</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111700+OR+aljabar-linier-dan-matriks&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111700-aljabar-linier-dan-matriks&description=Tugas+dan+praktikum+aljabar-linier-dan-matriks">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111700" placeholder="https://github.com/username/111700-aljabar-linier-dan-matriks" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112400"><td>12</td><td>112400</td>
+            <td><a href="matkul/112400.html">Komunikasi Data</a></td><td>2</td>
+            <td><code style="font-size:11.6px">112400-komunikasi-data</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112400+OR+komunikasi-data&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112400-komunikasi-data&description=Tugas+dan+praktikum+komunikasi-data">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112400" placeholder="https://github.com/username/112400-komunikasi-data" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112600"><td>13</td><td>112600</td>
+            <td><a href="matkul/112600.html">Matematika II</a></td><td>2</td>
+            <td><code style="font-size:11.6px">112600-matematika-ii</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112600+OR+matematika-ii&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112600-matematika-ii&description=Tugas+dan+praktikum+matematika-ii">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112600" placeholder="https://github.com/username/112600-matematika-ii" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113200"><td>14</td><td>113200</td>
+            <td><a href="matkul/113200.html">Pemrograman Visual</a></td><td>2</td>
+            <td><code style="font-size:11.6px">113200-pemrograman-visual</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113200+OR+pemrograman-visual&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113200-pemrograman-visual&description=Tugas+dan+praktikum+pemrograman-visual">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113200" placeholder="https://github.com/username/113200-pemrograman-visual" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113400"><td>15</td><td>113400</td>
+            <td><a href="matkul/113400.html">Perangkat Keras Komputer</a></td><td>2</td>
+            <td><code style="font-size:11.6px">113400-perangkat-keras-komputer</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113400+OR+perangkat-keras-komputer&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113400-perangkat-keras-komputer&description=Tugas+dan+praktikum+perangkat-keras-komputer">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113400" placeholder="https://github.com/username/113400-perangkat-keras-komputer" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113700"><td>16</td><td>113700</td>
+            <td><a href="matkul/113700.html">Sistem Digital</a></td><td>2</td>
+            <td><code style="font-size:11.6px">113700-sistem-digital</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113700+OR+sistem-digital&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113700-sistem-digital&description=Tugas+dan+praktikum+sistem-digital">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113700" placeholder="https://github.com/username/113700-sistem-digital" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="114100"><td>17</td><td>114100</td>
+            <td><a href="matkul/114100.html">Struktur Data</a></td><td>2</td>
+            <td><code style="font-size:11.6px">114100-struktur-data</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=114100+OR+struktur-data&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=114100-struktur-data&description=Tugas+dan+praktikum+struktur-data">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="114100" placeholder="https://github.com/username/114100-struktur-data" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113100"><td>18</td><td>113100</td>
+            <td><a href="matkul/113100.html">Pemrograman Java</a></td><td>2</td>
+            <td><code style="font-size:11.6px">113100-pemrograman-java</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113100+OR+pemrograman-java&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113100-pemrograman-java&description=Tugas+dan+praktikum+pemrograman-java">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113100" placeholder="https://github.com/username/113100-pemrograman-java" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="000600"><td>19</td><td>000600</td>
+            <td><a href="matkul/000600.html">Pendidikan Anti Korupsi</a></td><td>3</td>
+            <td><code style="font-size:11.6px">000600-pendidikan-anti-korupsi</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000600+OR+pendidikan-anti-korupsi&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000600-pendidikan-anti-korupsi&description=Tugas+dan+praktikum+pendidikan-anti-korupsi">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000600" placeholder="https://github.com/username/000600-pendidikan-anti-korupsi" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="000500"><td>20</td><td>000500</td>
+            <td><a href="matkul/000500.html">Pendidikan Agama</a></td><td>3</td>
+            <td><code style="font-size:11.6px">000500-pendidikan-agama</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000500+OR+pendidikan-agama&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000500-pendidikan-agama&description=Tugas+dan+praktikum+pendidikan-agama">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000500" placeholder="https://github.com/username/000500-pendidikan-agama" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="001200"><td>21</td><td>001200</td>
+            <td><a href="matkul/001200.html">Wirausaha Berbasis Teknologi</a></td><td>3</td>
+            <td><code style="font-size:11.6px">001200-wirausaha-berbasis-teknologi</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=001200+OR+wirausaha-berbasis-teknologi&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=001200-wirausaha-berbasis-teknologi&description=Tugas+dan+praktikum+wirausaha-berbasis-teknologi">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="001200" placeholder="https://github.com/username/001200-wirausaha-berbasis-teknologi" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="010100"><td>22</td><td>010100</td>
+            <td><a href="matkul/010100.html">Jaringan Komputer</a></td><td>3</td>
+            <td><code style="font-size:11.6px">010100-jaringan-komputer</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=010100+OR+jaringan-komputer&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=010100-jaringan-komputer&description=Tugas+dan+praktikum+jaringan-komputer">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="010100" placeholder="https://github.com/username/010100-jaringan-komputer" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="010500"><td>23</td><td>010500</td>
+            <td><a href="matkul/010500.html">Pemrograman Web</a></td><td>3</td>
+            <td><code style="font-size:11.6px">010500-pemrograman-web</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=010500+OR+pemrograman-web&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=010500-pemrograman-web&description=Tugas+dan+praktikum+pemrograman-web">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="010500" placeholder="https://github.com/username/010500-pemrograman-web" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="010600"><td>24</td><td>010600</td>
+            <td><a href="matkul/010600.html">Sistem Basis Data</a></td><td>3</td>
+            <td><code style="font-size:11.6px">010600-sistem-basis-data</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=010600+OR+sistem-basis-data&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=010600-sistem-basis-data&description=Tugas+dan+praktikum+sistem-basis-data">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="010600" placeholder="https://github.com/username/010600-sistem-basis-data" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="010700"><td>25</td><td>010700</td>
+            <td><a href="matkul/010700.html">Sistem Operasi</a></td><td>3</td>
+            <td><code style="font-size:11.6px">010700-sistem-operasi</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=010700+OR+sistem-operasi&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=010700-sistem-operasi&description=Tugas+dan+praktikum+sistem-operasi">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="010700" placeholder="https://github.com/username/010700-sistem-operasi" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="110200"><td>26</td><td>110200</td>
+            <td><a href="matkul/110200.html">Analisis Desain Berorientasi Objek</a></td><td>3</td>
+            <td><code style="font-size:11.6px">110200-analisis-desain-berorientasi-objek</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=110200+OR+analisis-desain-berorientasi-objek&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=110200-analisis-desain-berorientasi-objek&description=Tugas+dan+praktikum+analisis-desain-berorientasi-objek">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="110200" placeholder="https://github.com/username/110200-analisis-desain-berorientasi-objek" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="000200"><td>27</td><td>000200</td>
+            <td><a href="matkul/000200.html">Bahasa Inggris Bisnis</a></td><td>4</td>
+            <td><code style="font-size:11.6px">000200-bahasa-inggris-bisnis</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000200+OR+bahasa-inggris-bisnis&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000200-bahasa-inggris-bisnis&description=Tugas+dan+praktikum+bahasa-inggris-bisnis">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000200" placeholder="https://github.com/username/000200-bahasa-inggris-bisnis" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="010400"><td>28</td><td>010400</td>
+            <td><a href="matkul/010400.html">Metodologi Penelitian</a></td><td>4</td>
+            <td><code style="font-size:11.6px">010400-metodologi-penelitian</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=010400+OR+metodologi-penelitian&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=010400-metodologi-penelitian&description=Tugas+dan+praktikum+metodologi-penelitian">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="010400" placeholder="https://github.com/username/010400-metodologi-penelitian" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111800"><td>29</td><td>111800</td>
+            <td><a href="matkul/111800.html">Arsitektur dan Organisasi Komputer</a></td><td>4</td>
+            <td><code style="font-size:11.6px">111800-arsitektur-dan-organisasi-komputer</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111800+OR+arsitektur-dan-organisasi-komputer&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111800-arsitektur-dan-organisasi-komputer&description=Tugas+dan+praktikum+arsitektur-dan-organisasi-komputer">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111800" placeholder="https://github.com/username/111800-arsitektur-dan-organisasi-komputer" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111900"><td>30</td><td>111900</td>
+            <td><a href="matkul/111900.html">Grafika Komputer</a></td><td>4</td>
+            <td><code style="font-size:11.6px">111900-grafika-komputer</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111900+OR+grafika-komputer&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111900-grafika-komputer&description=Tugas+dan+praktikum+grafika-komputer">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111900" placeholder="https://github.com/username/111900-grafika-komputer" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112700"><td>31</td><td>112700</td>
+            <td><a href="matkul/112700.html">Metode Numerik</a></td><td>4</td>
+            <td><code style="font-size:11.6px">112700-metode-numerik</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112700+OR+metode-numerik&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112700-metode-numerik&description=Tugas+dan+praktikum+metode-numerik">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112700" placeholder="https://github.com/username/112700-metode-numerik" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113600"><td>32</td><td>113600</td>
+            <td><a href="matkul/113600.html">Rekayasa Perangkat Lunak</a></td><td>4</td>
+            <td><code style="font-size:11.6px">113600-rekayasa-perangkat-lunak</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113600+OR+rekayasa-perangkat-lunak&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113600-rekayasa-perangkat-lunak&description=Tugas+dan+praktikum+rekayasa-perangkat-lunak">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113600" placeholder="https://github.com/username/113600-rekayasa-perangkat-lunak" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112200"><td>33</td><td>112200</td>
+            <td><a href="matkul/112200.html">Kecerdasan Buatan</a></td><td>4</td>
+            <td><code style="font-size:11.6px">112200-kecerdasan-buatan</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112200+OR+kecerdasan-buatan&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112200-kecerdasan-buatan&description=Tugas+dan+praktikum+kecerdasan-buatan">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112200" placeholder="https://github.com/username/112200-kecerdasan-buatan" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112800"><td>34</td><td>112800</td>
+            <td><a href="matkul/112800.html">Mikrokontroller</a></td><td>4</td>
+            <td><code style="font-size:11.6px">112800-mikrokontroller</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112800+OR+mikrokontroller&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112800-mikrokontroller&description=Tugas+dan+praktikum+mikrokontroller">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112800" placeholder="https://github.com/username/112800-mikrokontroller" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113800"><td>35</td><td>113800</td>
+            <td><a href="matkul/113800.html">Sistem Multimedia</a></td><td>4</td>
+            <td><code style="font-size:11.6px">113800-sistem-multimedia</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113800+OR+sistem-multimedia&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113800-sistem-multimedia&description=Tugas+dan+praktikum+sistem-multimedia">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113800" placeholder="https://github.com/username/113800-sistem-multimedia" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112000"><td>36</td><td>112000</td>
+            <td><a href="matkul/112000.html">Internet of Things</a></td><td>4</td>
+            <td><code style="font-size:11.6px">112000-internet-of-things</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112000+OR+internet-of-things&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112000-internet-of-things&description=Tugas+dan+praktikum+internet-of-things">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112000" placeholder="https://github.com/username/112000-internet-of-things" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="000800"><td>37</td><td>000800</td>
+            <td><a href="matkul/000800.html">Penulisan dan Publikasi Ilmiah</a></td><td>5</td>
+            <td><code style="font-size:11.6px">000800-penulisan-dan-publikasi-ilmiah</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000800+OR+penulisan-dan-publikasi-ilmiah&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000800-penulisan-dan-publikasi-ilmiah&description=Tugas+dan+praktikum+penulisan-dan-publikasi-ilmiah">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000800" placeholder="https://github.com/username/000800-penulisan-dan-publikasi-ilmiah" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="110700"><td>38</td><td>110700</td>
+            <td><a href="matkul/110700.html">Kriptografi</a></td><td>5</td>
+            <td><code style="font-size:11.6px">110700-kriptografi</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=110700+OR+kriptografi&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=110700-kriptografi&description=Tugas+dan+praktikum+kriptografi">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="110700" placeholder="https://github.com/username/110700-kriptografi" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111100"><td>39</td><td>111100</td>
+            <td><a href="matkul/111100.html">Penalaran Komputer</a></td><td>5</td>
+            <td><code style="font-size:11.6px">111100-penalaran-komputer</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111100+OR+penalaran-komputer&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111100-penalaran-komputer&description=Tugas+dan+praktikum+penalaran-komputer">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111100" placeholder="https://github.com/username/111100-penalaran-komputer" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111300"><td>40</td><td>111300</td>
+            <td><a href="matkul/111300.html">Robotika</a></td><td>5</td>
+            <td><code style="font-size:11.6px">111300-robotika</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111300+OR+robotika&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111300-robotika&description=Tugas+dan+praktikum+robotika">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111300" placeholder="https://github.com/username/111300-robotika" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111400"><td>41</td><td>111400</td>
+            <td><a href="matkul/111400.html">Simulasi dan Game Komputer</a></td><td>5</td>
+            <td><code style="font-size:11.6px">111400-simulasi-dan-game-komputer</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111400+OR+simulasi-dan-game-komputer&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111400-simulasi-dan-game-komputer&description=Tugas+dan+praktikum+simulasi-dan-game-komputer">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111400" placeholder="https://github.com/username/111400-simulasi-dan-game-komputer" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="110600"><td>42</td><td>110600</td>
+            <td><a href="matkul/110600.html">Jaringan Nirkabel</a></td><td>5</td>
+            <td><code style="font-size:11.6px">110600-jaringan-nirkabel</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=110600+OR+jaringan-nirkabel&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=110600-jaringan-nirkabel&description=Tugas+dan+praktikum+jaringan-nirkabel">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="110600" placeholder="https://github.com/username/110600-jaringan-nirkabel" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111000"><td>43</td><td>111000</td>
+            <td><a href="matkul/111000.html">Pemrograman Aplikasi Bergerak</a></td><td>5</td>
+            <td><code style="font-size:11.6px">111000-pemrograman-aplikasi-bergerak</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111000+OR+pemrograman-aplikasi-bergerak&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111000-pemrograman-aplikasi-bergerak&description=Tugas+dan+praktikum+pemrograman-aplikasi-bergerak">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111000" placeholder="https://github.com/username/111000-pemrograman-aplikasi-bergerak" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111600"><td>44</td><td>111600</td>
+            <td><a href="matkul/111600.html">Teknologi Aplikasi Bergerak</a></td><td>5</td>
+            <td><code style="font-size:11.6px">111600-teknologi-aplikasi-bergerak</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111600+OR+teknologi-aplikasi-bergerak&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111600-teknologi-aplikasi-bergerak&description=Tugas+dan+praktikum+teknologi-aplikasi-bergerak">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111600" placeholder="https://github.com/username/111600-teknologi-aplikasi-bergerak" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="111500"><td>45</td><td>111500</td>
+            <td><a href="matkul/111500.html">Sistem Manajemen Basis Data</a></td><td>5</td>
+            <td><code style="font-size:11.6px">111500-sistem-manajemen-basis-data</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=111500+OR+sistem-manajemen-basis-data&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=111500-sistem-manajemen-basis-data&description=Tugas+dan+praktikum+sistem-manajemen-basis-data">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="111500" placeholder="https://github.com/username/111500-sistem-manajemen-basis-data" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="010200"><td>46</td><td>010200</td>
+            <td><a href="matkul/010200.html">Komunikasi Publik</a></td><td>6</td>
+            <td><code style="font-size:11.6px">010200-komunikasi-publik</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=010200+OR+komunikasi-publik&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=010200-komunikasi-publik&description=Tugas+dan+praktikum+komunikasi-publik">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="010200" placeholder="https://github.com/username/010200-komunikasi-publik" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="010800"><td>47</td><td>010800</td>
+            <td><a href="matkul/010800.html">Statistika dan Probabilitas</a></td><td>6</td>
+            <td><code style="font-size:11.6px">010800-statistika-dan-probabilitas</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=010800+OR+statistika-dan-probabilitas&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=010800-statistika-dan-probabilitas&description=Tugas+dan+praktikum+statistika-dan-probabilitas">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="010800" placeholder="https://github.com/username/010800-statistika-dan-probabilitas" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="116200"><td>48</td><td>116200</td>
+            <td><a href="matkul/116200.html">Pembelajaran Mesin</a></td><td>6</td>
+            <td><code style="font-size:11.6px">116200-pembelajaran-mesin</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=116200+OR+pembelajaran-mesin&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=116200-pembelajaran-mesin&description=Tugas+dan+praktikum+pembelajaran-mesin">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="116200" placeholder="https://github.com/username/116200-pembelajaran-mesin" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112100"><td>49</td><td>112100</td>
+            <td><a href="matkul/112100.html">Jaringan Syaraf Tiruan</a></td><td>6</td>
+            <td><code style="font-size:11.6px">112100-jaringan-syaraf-tiruan</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112100+OR+jaringan-syaraf-tiruan&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112100-jaringan-syaraf-tiruan&description=Tugas+dan+praktikum+jaringan-syaraf-tiruan">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112100" placeholder="https://github.com/username/112100-jaringan-syaraf-tiruan" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112500"><td>50</td><td>112500</td>
+            <td><a href="matkul/112500.html">Logika Fuzzy</a></td><td>6</td>
+            <td><code style="font-size:11.6px">112500-logika-fuzzy</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112500+OR+logika-fuzzy&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112500-logika-fuzzy&description=Tugas+dan+praktikum+logika-fuzzy">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112500" placeholder="https://github.com/username/112500-logika-fuzzy" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113300"><td>51</td><td>113300</td>
+            <td><a href="matkul/113300.html">Pengolahan Citra Digital</a></td><td>6</td>
+            <td><code style="font-size:11.6px">113300-pengolahan-citra-digital</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113300+OR+pengolahan-citra-digital&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113300-pengolahan-citra-digital&description=Tugas+dan+praktikum+pengolahan-citra-digital">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113300" placeholder="https://github.com/username/113300-pengolahan-citra-digital" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="116000"><td>52</td><td>116000</td>
+            <td><a href="matkul/116000.html">Sistem Pendukung Keputusan</a></td><td>6</td>
+            <td><code style="font-size:11.6px">116000-sistem-pendukung-keputusan</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=116000+OR+sistem-pendukung-keputusan&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=116000-sistem-pendukung-keputusan&description=Tugas+dan+praktikum+sistem-pendukung-keputusan">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="116000" placeholder="https://github.com/username/116000-sistem-pendukung-keputusan" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112300"><td>53</td><td>112300</td>
+            <td><a href="matkul/112300.html">Komputasi Awan</a></td><td>6</td>
+            <td><code style="font-size:11.6px">112300-komputasi-awan</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112300+OR+komputasi-awan&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112300-komputasi-awan&description=Tugas+dan+praktikum+komputasi-awan">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112300" placeholder="https://github.com/username/112300-komputasi-awan" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="112900"><td>54</td><td>112900</td>
+            <td><a href="matkul/112900.html">Pemrograman Aplikasi Bergerak Lanjut</a></td><td>6</td>
+            <td><code style="font-size:11.6px">112900-pemrograman-aplikasi-bergerak-lanjut</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=112900+OR+pemrograman-aplikasi-bergerak-lanjut&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=112900-pemrograman-aplikasi-bergerak-lanjut&description=Tugas+dan+praktikum+pemrograman-aplikasi-bergerak-lanjut">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="112900" placeholder="https://github.com/username/112900-pemrograman-aplikasi-bergerak-lanjut" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113000"><td>55</td><td>113000</td>
+            <td><a href="matkul/113000.html">Pemrograman Framework</a></td><td>6</td>
+            <td><code style="font-size:11.6px">113000-pemrograman-framework</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113000+OR+pemrograman-framework&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113000-pemrograman-framework&description=Tugas+dan+praktikum+pemrograman-framework">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113000" placeholder="https://github.com/username/113000-pemrograman-framework" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="113500"><td>56</td><td>113500</td>
+            <td><a href="matkul/113500.html">Rekayasa Aplikasi Bergerak</a></td><td>6</td>
+            <td><code style="font-size:11.6px">113500-rekayasa-aplikasi-bergerak</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=113500+OR+rekayasa-aplikasi-bergerak&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=113500-rekayasa-aplikasi-bergerak&description=Tugas+dan+praktikum+rekayasa-aplikasi-bergerak">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="113500" placeholder="https://github.com/username/113500-rekayasa-aplikasi-bergerak" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="000300"><td>57</td><td>000300</td>
+            <td><a href="matkul/000300.html">Kuliah Kerja Nyata</a></td><td>7</td>
+            <td><code style="font-size:11.6px">000300-kuliah-kerja-nyata</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000300+OR+kuliah-kerja-nyata&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000300-kuliah-kerja-nyata&description=Tugas+dan+praktikum+kuliah-kerja-nyata">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000300" placeholder="https://github.com/username/000300-kuliah-kerja-nyata" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr><tr id="000900"><td>58</td><td>000900</td>
+            <td><a href="matkul/000900.html">Skripsi</a></td><td>8</td>
+            <td><code style="font-size:11.6px">000900-skripsi</code></td>
+            <td>
+              <a class="btn sm" target="_blank" href="https://github.com/search?q=000900+OR+skripsi&type=repositories">🔍 Cari di GitHub</a>
+              <a class="btn sm ghost" target="_blank" href="https://github.com/new?name=000900-skripsi&description=Tugas+dan+praktikum+skripsi">＋ Buat Repo</a>
+            </td>
+            <td><input class="repo" data-k="000900" placeholder="https://github.com/username/000900-skripsi" style="width:100%;padding:6px;border:1px solid var(--line);border-radius:7px;font-size:11.6px"></td></tr></tbody></table></div>
+</div>
+
+<div class="footer">
+  <div class="cols">
+    <div>
+      <h5>Smart Campus Universitas Mulia</h5>
+      <ul>
+        <li>Fakultas Ilmu Komputer</li>
+        <li>Program Studi S1 Informatika</li>
+        <li>Kurikulum 2026/2027 • 58 mata kuliah • 168 SKS</li>
+        <li>Versi aplikasi 1.0.0</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Akses Cepat</h5>
+      <ul>
+        <li><a href="index.html">Beranda Biro Akademik</a></li>
+        <li><a href="kurikulum.html">Kurikulum &amp; Mata Kuliah</a></li>
+        <li><a href="compiler.html">Kompiler C++ / JS / PHP / Python</a></li>
+        <li><a href="repository.html">Repositori &amp; Link GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Biro Akademik</h5>
+      <ul>
+        <li>Kampus Balikpapan — Kalimantan Timur</li>
+        <li>Jam layanan: 08.00 – 16.00 WITA</li>
+        <li>Call Center: (0542) 123-456</li>
+        <li>Email: baak@universitasmulia.ac.id</li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">Copyright &copy; 2026 Universitas Mulia • Smart Campus • Dibangun dengan Flutter (Dart)</div>
+</div>
+
+
+<script>
+var KEY='mulia_repos';
+function all(){ return Array.prototype.slice.call(document.querySelectorAll('.repo')); }
+function ambil(){ var d={}; all().forEach(function(i){ if(i.value.trim()) d[i.dataset.k]=i.value.trim(); }); return d; }
+function simpan(){ localStorage.setItem(KEY, JSON.stringify(ambil()));
+  if(window.MuliaApp&&window.MuliaApp.postMessage) window.MuliaApp.postMessage(JSON.stringify({action:'toast',message:'Link repositori tersimpan'}));
+  alert('Tersimpan: '+Object.keys(ambil()).length+' repositori.'); }
+function hapus(){ if(confirm('Hapus semua link repositori tersimpan?')){ localStorage.removeItem(KEY); all().forEach(function(i){i.value='';}); } }
+function ekspor(){ var s=JSON.stringify(ambil(),null,2); var b=new Blob([s],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='repositori-mulia.json'; a.click(); }
+function muat(){ try{ var d=JSON.parse(localStorage.getItem(KEY)||'{}');
+  all().forEach(function(i){ if(d[i.dataset.k]) i.value=d[i.dataset.k]; }); }catch(e){} }
+document.getElementById('q').addEventListener('keyup',function(e){
+  var q=e.target.value.toLowerCase();
+  document.querySelectorAll('#tbl tbody tr').forEach(function(tr){
+    tr.style.display = tr.textContent.toLowerCase().indexOf(q)>-1 ? '' : 'none';
+  });
+});
+all().forEach(function(i){ i.addEventListener('change', simpan); });
+muat();
+if(location.hash){ var r=document.getElementById(location.hash.slice(1)); if(r){ r.scrollIntoView({block:'center'}); r.style.background='#fff7dd'; } }
+</script>
+</body>
+</html>

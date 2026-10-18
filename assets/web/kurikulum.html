@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kurikulum S1 Informatika — Smart Campus Universitas Mulia</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --navy:#07101f; --navy2:#0b1d38; --navy3:#123059; --navy4:#1b3f70;
+ --gold:#ffc93c; --gold2:#ffe08a; --blue:#2f7bff; --teal:#22c1a4;
+ --ink:#0d1b2a; --muted:#5b6b80; --line:#e3e8f0; --bg:#f2f5fa;
+}
+body{font-family:'Segoe UI',Roboto,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:var(--navy4);text-decoration:none}
+a:hover{text-decoration:underline}
+.top{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(7,16,31,.35)}
+.top .inner{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:17px}
+.brand small{display:block;font-weight:500;font-size:10.5px;color:#a9c0dd;letter-spacing:.6px}
+.nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap;font-size:13.5px}
+.nav a{color:#dce8f7;padding:4px 2px;border-bottom:2px solid transparent}
+.nav a.on,.nav a:hover{border-color:var(--gold);color:#fff;text-decoration:none}
+.hero{background:radial-gradient(120% 140% at 50% -30%,var(--navy3) 0%,var(--navy2) 45%,var(--navy) 100%);color:#fff;padding:34px 16px 74px;text-align:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:auto 0 0 0;height:64px;background:linear-gradient(180deg,transparent,rgba(255,201,60,.14))}
+.hero h1{font-size:29px;letter-spacing:.3px;margin-bottom:10px;color:var(--gold2)}
+.hero p{max-width:720px;margin:0 auto;color:#c8d8ee;font-size:14px}
+.searchbar{max-width:720px;margin:22px auto 0;background:#fff;border-radius:12px;display:flex;gap:8px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;z-index:2}
+.searchbar input{flex:1;border:0;outline:0;padding:11px 12px;font-size:14px;color:var(--ink)}
+.searchbar button{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 20px;font-weight:700;cursor:pointer;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(13,27,42,.05)}
+.chip{display:inline-block;background:#eef3fb;color:var(--navy3);border:1px solid #d5e0f2;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700}
+.chip.gold{background:#fff5d9;border-color:#f5de9a;color:#8a6100}
+.chip.teal{background:#e4f7f2;border-color:#b9e9df;color:#0f6b58}
+.btn{display:inline-block;border:0;border-radius:9px;padding:10px 16px;font-weight:700;font-size:13.5px;cursor:pointer;background:var(--navy);color:#fff}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.ghost{background:#fff;color:var(--navy);border:1.6px solid var(--navy3)}
+.btn.sm{padding:7px 12px;font-size:12.5px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.g3{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.mkcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:8px;transition:.18s;border-left:4px solid var(--navy3)}
+.mkcard:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(11,29,56,.14);border-left-color:var(--gold)}
+.mkcard h4{font-size:14.5px;line-height:1.35;color:var(--navy2)}
+.mkcard .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--muted)}
+.mkcard p{font-size:12.6px;color:var(--muted)}
+.pager{display:flex;gap:6px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.pager button{min-width:36px;height:34px;border:1px solid #d9e1ee;background:#fff;border-radius:8px;cursor:pointer;font-weight:700;color:var(--navy2)}
+.pager button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.footer{background:linear-gradient(180deg,var(--gold2) 0%,var(--gold) 100%);color:#3a2c00;margin-top:34px;padding:26px 16px}
+.footer .cols{max-width:1180px;margin:0 auto;display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.footer h5{font-size:14px;margin-bottom:8px;color:#2c2200;text-transform:uppercase;letter-spacing:.5px}
+.footer ul{list-style:none;font-size:12.6px}
+.footer li{padding:3px 0}
+.footer .copy{max-width:1180px;margin:20px auto 0;border-top:1px solid rgba(58,44,0,.2);padding-top:12px;font-size:12px;text-align:center;color:#4a3a00}
+.tblwrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{background:var(--navy2);color:#fff;text-align:left;padding:10px 12px;font-size:12.5px;position:sticky;top:0}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#fafcff}
+.breadcrumb{font-size:12.5px;color:#9db4d4;margin-bottom:10px}
+.breadcrumb a{color:#cfe0f5}
+.section-title{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:17px;font-weight:800;color:var(--navy2)}
+.section-title:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--navy3),transparent)}
+.note{background:#f7faff;border:1px dashed #c8d8ee;border-radius:10px;padding:12px;font-size:12.8px;color:var(--navy3)}
+.cert{background:#fff;border:10px double var(--navy3);border-radius:4px;padding:26px 22px;text-align:center;position:relative;overflow:hidden}
+.cert:before{content:"";position:absolute;inset:8px;border:1.5px solid var(--gold);border-radius:2px;pointer-events:none}
+.cert h2{font-size:24px;letter-spacing:1.5px;color:var(--navy);text-transform:uppercase;margin-bottom:4px}
+.cert .sub{font-size:11.5px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.cert .who{font-size:26px;font-weight:800;color:var(--navy4);border-bottom:2px solid var(--gold);display:inline-block;padding:0 18px 4px;margin:10px 0}
+.cert .desc{font-size:13.4px;color:#33465c;max-width:640px;margin:12px auto 0}
+.cert .mkname{font-weight:800;color:var(--navy2)}
+.seal{width:96px;height:96px;border-radius:50%;border:3px solid var(--gold);background:radial-gradient(circle at 30% 30%,#fff8e3,var(--gold2));display:grid;place-items:center;margin:18px auto 8px;color:#7a5600;font-weight:900;font-size:11px;text-align:center;line-height:1.15;box-shadow:0 4px 14px rgba(255,201,60,.4)}
+.sign{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-size:12px;color:#33465c;flex-wrap:wrap}
+.sign div{flex:1;min-width:170px;text-align:center}
+.sign .line{border-top:1.5px solid var(--navy3);margin-bottom:5px;height:44px}
+.ribbon{position:absolute;top:14px;right:-46px;transform:rotate(38deg);background:var(--navy);color:var(--gold);font-size:11px;font-weight:800;letter-spacing:1px;padding:5px 52px}
+@media print{.top,.pager,.no-print,.footer{display:none!important}.hero{display:none}body{background:#fff}}
+@media(max-width:640px){.nav{gap:12px;font-size:12.5px}.hero h1{font-size:22px}.cert h2{font-size:18px}.cert .who{font-size:20px}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="inner">
+    <div class="brand"><span class="logo">M</span><span>PUSAT DATA<small>SMART CAMPUS UNIVERSITAS MULIA</small></span></div>
+    <nav class="nav">
+      <a href="index.html" class="">Profil</a>
+      <a href="kurikulum.html" class="on">Akademik</a>
+      <a href="compiler.html" class="">Kompiler</a>
+      <a href="repository.html" class="">Repositori</a>
+      <a href="index.html#panduan" class="">Panduan</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero" style="padding:26px 16px 54px"><h1>Kurikulum S1 Informatika</h1>
+<p>Fakultas Ilmu Komputer • Universitas Mulia • Kurikulum 2026/2027 • Total 168 SKS</p></div>
+<div class="wrap" style="margin-top:16px"><div class="section-title">Semester 1 <span class="chip gold">23 SKS</span></div>
+        <div class="tblwrap"><table><thead><tr><th>Kode</th><th>Nama Mata Kuliah</th><th>SKS</th><th>MK Prasyarat</th></tr></thead>
+        <tbody><tr><td>000100</td><td><a href='matkul/000100.html'>Bahasa Indonesia</a></td><td>2</td><td>-</td></tr><tr><td>000400</td><td><a href='matkul/000400.html'>Pancasila</a></td><td>2</td><td>-</td></tr><tr><td>110400</td><td><a href='matkul/110400.html'>Etika Profesi</a></td><td>2</td><td>-</td></tr><tr><td>001000</td><td><a href='matkul/001000.html'>Teknologi Informasi</a></td><td>3</td><td>-</td></tr><tr><td>110100</td><td><a href='matkul/110100.html'>Algoritma dan Pemrograman</a></td><td>3</td><td>-</td></tr><tr><td>110300</td><td><a href='matkul/110300.html'>Bahasa Inggris</a></td><td>3</td><td>-</td></tr><tr><td>110800</td><td><a href='matkul/110800.html'>Logika Informatika</a></td><td>3</td><td>-</td></tr><tr><td>110900</td><td><a href='matkul/110900.html'>Matematika I</a></td><td>2</td><td>-</td></tr><tr><td>111200</td><td><a href='matkul/111200.html'>Interaksi Manusia dan Komputer</a></td><td>3</td><td>-</td></tr><tr><td colspan="2"><b>Total SKS</b></td><td><b>23</b></td><td></td></tr></tbody></table></div><div class="section-title">Semester 2 <span class="chip gold">24 SKS</span></div>
+        <div class="tblwrap"><table><thead><tr><th>Kode</th><th>Nama Mata Kuliah</th><th>SKS</th><th>MK Prasyarat</th></tr></thead>
+        <tbody><tr><td>000700</td><td><a href='matkul/000700.html'>Pendidikan Kewarganegaraan</a></td><td>2</td><td>-</td></tr><tr><td>111700</td><td><a href='matkul/111700.html'>Aljabar Linier dan Matriks</a></td><td>2</td><td>Matematika I</td></tr><tr><td>112400</td><td><a href='matkul/112400.html'>Komunikasi Data</a></td><td>3</td><td>-</td></tr><tr><td>112600</td><td><a href='matkul/112600.html'>Matematika II</a></td><td>2</td><td>Matematika I</td></tr><tr><td>113200</td><td><a href='matkul/113200.html'>Pemrograman Visual</a></td><td>3</td><td>Algoritma dan Pemrograman</td></tr><tr><td>113400</td><td><a href='matkul/113400.html'>Perangkat Keras Komputer</a></td><td>3</td><td>Teknologi Informasi</td></tr><tr><td>113700</td><td><a href='matkul/113700.html'>Sistem Digital</a></td><td>3</td><td>Logika Informatika</td></tr><tr><td>114100</td><td><a href='matkul/114100.html'>Struktur Data</a></td><td>3</td><td>Algoritma dan Pemrograman</td></tr><tr><td>113100</td><td><a href='matkul/113100.html'>Pemrograman Java</a></td><td>3</td><td>Algoritma dan Pemrograman</td></tr><tr><td colspan="2"><b>Total SKS</b></td><td><b>24</b></td><td></td></tr></tbody></table></div><div class="section-title">Semester 3 <span class="chip gold">23 SKS</span></div>
+        <div class="tblwrap"><table><thead><tr><th>Kode</th><th>Nama Mata Kuliah</th><th>SKS</th><th>MK Prasyarat</th></tr></thead>
+        <tbody><tr><td>000600</td><td><a href='matkul/000600.html'>Pendidikan Anti Korupsi</a></td><td>2</td><td>-</td></tr><tr><td>000500</td><td><a href='matkul/000500.html'>Pendidikan Agama</a></td><td>2</td><td>-</td></tr><tr><td>001200</td><td><a href='matkul/001200.html'>Wirausaha Berbasis Teknologi</a></td><td>4</td><td>-</td></tr><tr><td>010100</td><td><a href='matkul/010100.html'>Jaringan Komputer</a></td><td>3</td><td>Komunikasi Data</td></tr><tr><td>010500</td><td><a href='matkul/010500.html'>Pemrograman Web</a></td><td>3</td><td>Algoritma dan Pemrograman</td></tr><tr><td>010600</td><td><a href='matkul/010600.html'>Sistem Basis Data</a></td><td>3</td><td>Teknologi Informasi</td></tr><tr><td>010700</td><td><a href='matkul/010700.html'>Sistem Operasi</a></td><td>3</td><td>Sistem Digital</td></tr><tr><td>110200</td><td><a href='matkul/110200.html'>Analisis Desain Berorientasi Objek</a></td><td>3</td><td>Struktur Data</td></tr><tr><td colspan="2"><b>Total SKS</b></td><td><b>23</b></td><td></td></tr></tbody></table></div><div class="section-title">Semester 4 <span class="chip gold">29 SKS</span></div><div class='note' style='margin:10px 0'>Wajib 20 SKS, Pilihan 9 SKS</div>
+        <div class="tblwrap"><table><thead><tr><th>Kode</th><th>Nama Mata Kuliah</th><th>SKS</th><th>MK Prasyarat</th></tr></thead>
+        <tbody><tr><td>000200</td><td><a href='matkul/000200.html'>Bahasa Inggris Bisnis</a></td><td>3</td><td>Bahasa Inggris</td></tr><tr><td>010400</td><td><a href='matkul/010400.html'>Metodologi Penelitian</a></td><td>3</td><td>-</td></tr><tr><td>111800</td><td><a href='matkul/111800.html'>Arsitektur dan Organisasi Komputer</a></td><td>3</td><td>Sistem Operasi</td></tr><tr><td>111900</td><td><a href='matkul/111900.html'>Grafika Komputer</a></td><td>3</td><td>Algoritma dan Pemrograman</td></tr><tr><td>112700</td><td><a href='matkul/112700.html'>Metode Numerik</a></td><td>2</td><td>Matematika II</td></tr><tr><td>113600</td><td><a href='matkul/113600.html'>Rekayasa Perangkat Lunak</a></td><td>3</td><td>ADBO</td></tr><tr><td>112200</td><td><a href='matkul/112200.html'>Kecerdasan Buatan</a></td><td>3</td><td>Algoritma dan Pemrograman</td></tr><tr><td>112800</td><td><a href='matkul/112800.html'>Mikrokontroller</a></td><td>3</td><td>Sistem Digital</td></tr><tr><td>113800</td><td><a href='matkul/113800.html'>Sistem Multimedia</a></td><td>3</td><td>-</td></tr><tr><td>112000</td><td><a href='matkul/112000.html'>Internet of Things</a></td><td>3</td><td>-</td></tr><tr><td colspan="2"><b>Total SKS</b></td><td><b>29</b></td><td></td></tr></tbody></table></div><div class="section-title">Semester 5 <span class="chip gold">26 SKS</span></div><div class='note' style='margin:10px 0'>Wajib 2 SKS, Pilihan 24 SKS</div>
+        <div class="tblwrap"><table><thead><tr><th>Kode</th><th>Nama Mata Kuliah</th><th>SKS</th><th>MK Prasyarat</th></tr></thead>
+        <tbody><tr><td>000800</td><td><a href='matkul/000800.html'>Penulisan dan Publikasi Ilmiah</a></td><td>2</td><td>Metodologi Penelitian</td></tr><tr><td>110700</td><td><a href='matkul/110700.html'>Kriptografi</a></td><td>3</td><td>-</td></tr><tr><td>111100</td><td><a href='matkul/111100.html'>Penalaran Komputer</a></td><td>3</td><td>Kecerdasan Buatan</td></tr><tr><td>111300</td><td><a href='matkul/111300.html'>Robotika</a></td><td>3</td><td>Mikrokontroller</td></tr><tr><td>111400</td><td><a href='matkul/111400.html'>Simulasi dan Game Komputer</a></td><td>3</td><td>Algoritma dan Pemrograman</td></tr><tr><td>110600</td><td><a href='matkul/110600.html'>Jaringan Nirkabel</a></td><td>3</td><td>Jaringan Komputer</td></tr><tr><td>111000</td><td><a href='matkul/111000.html'>Pemrograman Aplikasi Bergerak</a></td><td>3</td><td>Algoritma dan Pemrograman</td></tr><tr><td>111600</td><td><a href='matkul/111600.html'>Teknologi Aplikasi Bergerak</a></td><td>3</td><td>Komunikasi Data</td></tr><tr><td>111500</td><td><a href='matkul/111500.html'>Sistem Manajemen Basis Data</a></td><td>3</td><td>Sistem Basis Data</td></tr><tr><td colspan="2"><b>Total SKS</b></td><td><b>26</b></td><td></td></tr></tbody></table></div><div class="section-title">Semester 6 <span class="chip gold">35 SKS</span></div><div class='note' style='margin:10px 0'>Wajib 5 SKS, Pilihan 30 SKS</div>
+        <div class="tblwrap"><table><thead><tr><th>Kode</th><th>Nama Mata Kuliah</th><th>SKS</th><th>MK Prasyarat</th></tr></thead>
+        <tbody><tr><td>010200</td><td><a href='matkul/010200.html'>Komunikasi Publik</a></td><td>3</td><td>-</td></tr><tr><td>010800</td><td><a href='matkul/010800.html'>Statistika dan Probabilitas</a></td><td>3</td><td>Matematika I</td></tr><tr><td>116200</td><td><a href='matkul/116200.html'>Pembelajaran Mesin</a></td><td>3</td><td>Kecerdasan Buatan</td></tr><tr><td>112100</td><td><a href='matkul/112100.html'>Jaringan Syaraf Tiruan</a></td><td>3</td><td>Kecerdasan Buatan</td></tr><tr><td>112500</td><td><a href='matkul/112500.html'>Logika Fuzzy</a></td><td>3</td><td>Kecerdasan Buatan</td></tr><tr><td>113300</td><td><a href='matkul/113300.html'>Pengolahan Citra Digital</a></td><td>3</td><td>Grafika Komputer</td></tr><tr><td>116000</td><td><a href='matkul/116000.html'>Sistem Pendukung Keputusan</a></td><td>3</td><td>Kecerdasan Buatan</td></tr><tr><td>112300</td><td><a href='matkul/112300.html'>Komputasi Awan</a></td><td>3</td><td>Kecerdasan Buatan</td></tr><tr><td>112900</td><td><a href='matkul/112900.html'>Pemrograman Aplikasi Bergerak Lanjut</a></td><td>3</td><td>Komunikasi Data</td></tr><tr><td>113000</td><td><a href='matkul/113000.html'>Pemrograman Framework</a></td><td>3</td><td>Pemrograman Aplikasi Bergerak</td></tr><tr><td>113500</td><td><a href='matkul/113500.html'>Rekayasa Aplikasi Bergerak</a></td><td>3</td><td>Pemrograman Web</td></tr><tr><td colspan="2"><b>Total SKS</b></td><td><b>35</b></td><td></td></tr></tbody></table></div><div class="section-title">Semester 7 <span class="chip gold">4 SKS</span></div><div class='note' style='margin:10px 0'>Minimal telah menempuh minimal 110 SKS</div>
+        <div class="tblwrap"><table><thead><tr><th>Kode</th><th>Nama Mata Kuliah</th><th>SKS</th><th>MK Prasyarat</th></tr></thead>
+        <tbody><tr><td>000300</td><td><a href='matkul/000300.html'>Kuliah Kerja Nyata</a></td><td>4</td><td>Minimal telah menempuh minimal 110 SKS</td></tr><tr><td colspan="2"><b>Total SKS</b></td><td><b>4</b></td><td></td></tr></tbody></table></div><div class="section-title">Semester 8 <span class="chip gold">6 SKS</span></div><div class='note' style='margin:10px 0'>Minimal SKS lulus = 138 SKS dengan semua MK wajib telah lulus</div>
+        <div class="tblwrap"><table><thead><tr><th>Kode</th><th>Nama Mata Kuliah</th><th>SKS</th><th>MK Prasyarat</th></tr></thead>
+        <tbody><tr><td>000900</td><td><a href='matkul/000900.html'>Skripsi</a></td><td>6</td><td>Minimal SKS lulus = 138 SKS dengan semua MK wajib telah lulus</td></tr><tr><td colspan="2"><b>Total SKS</b></td><td><b>6</b></td><td></td></tr></tbody></table></div></div>
+<div class="footer">
+  <div class="cols">
+    <div>
+      <h5>Smart Campus Universitas Mulia</h5>
+      <ul>
+        <li>Fakultas Ilmu Komputer</li>
+        <li>Program Studi S1 Informatika</li>
+        <li>Kurikulum 2026/2027 • 58 mata kuliah • 168 SKS</li>
+        <li>Versi aplikasi 1.0.0</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Akses Cepat</h5>
+      <ul>
+        <li><a href="index.html">Beranda Biro Akademik</a></li>
+        <li><a href="kurikulum.html">Kurikulum &amp; Mata Kuliah</a></li>
+        <li><a href="compiler.html">Kompiler C++ / JS / PHP / Python</a></li>
+        <li><a href="repository.html">Repositori &amp; Link GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Biro Akademik</h5>
+      <ul>
+        <li>Kampus Balikpapan — Kalimantan Timur</li>
+        <li>Jam layanan: 08.00 – 16.00 WITA</li>
+        <li>Call Center: (0542) 123-456</li>
+        <li>Email: baak@universitasmulia.ac.id</li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">Copyright &copy; 2026 Universitas Mulia • Smart Campus • Dibangun dengan Flutter (Dart)</div>
+</div>
+
+<script></script>
+</body>
+</html>

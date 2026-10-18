@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kompiler Daring — Smart Campus Universitas Mulia</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --navy:#07101f; --navy2:#0b1d38; --navy3:#123059; --navy4:#1b3f70;
+ --gold:#ffc93c; --gold2:#ffe08a; --blue:#2f7bff; --teal:#22c1a4;
+ --ink:#0d1b2a; --muted:#5b6b80; --line:#e3e8f0; --bg:#f2f5fa;
+}
+body{font-family:'Segoe UI',Roboto,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:var(--navy4);text-decoration:none}
+a:hover{text-decoration:underline}
+.top{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(7,16,31,.35)}
+.top .inner{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:17px}
+.brand small{display:block;font-weight:500;font-size:10.5px;color:#a9c0dd;letter-spacing:.6px}
+.nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap;font-size:13.5px}
+.nav a{color:#dce8f7;padding:4px 2px;border-bottom:2px solid transparent}
+.nav a.on,.nav a:hover{border-color:var(--gold);color:#fff;text-decoration:none}
+.hero{background:radial-gradient(120% 140% at 50% -30%,var(--navy3) 0%,var(--navy2) 45%,var(--navy) 100%);color:#fff;padding:34px 16px 74px;text-align:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:auto 0 0 0;height:64px;background:linear-gradient(180deg,transparent,rgba(255,201,60,.14))}
+.hero h1{font-size:29px;letter-spacing:.3px;margin-bottom:10px;color:var(--gold2)}
+.hero p{max-width:720px;margin:0 auto;color:#c8d8ee;font-size:14px}
+.searchbar{max-width:720px;margin:22px auto 0;background:#fff;border-radius:12px;display:flex;gap:8px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;z-index:2}
+.searchbar input{flex:1;border:0;outline:0;padding:11px 12px;font-size:14px;color:var(--ink)}
+.searchbar button{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 20px;font-weight:700;cursor:pointer;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(13,27,42,.05)}
+.chip{display:inline-block;background:#eef3fb;color:var(--navy3);border:1px solid #d5e0f2;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700}
+.chip.gold{background:#fff5d9;border-color:#f5de9a;color:#8a6100}
+.chip.teal{background:#e4f7f2;border-color:#b9e9df;color:#0f6b58}
+.btn{display:inline-block;border:0;border-radius:9px;padding:10px 16px;font-weight:700;font-size:13.5px;cursor:pointer;background:var(--navy);color:#fff}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.ghost{background:#fff;color:var(--navy);border:1.6px solid var(--navy3)}
+.btn.sm{padding:7px 12px;font-size:12.5px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.g3{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.mkcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:8px;transition:.18s;border-left:4px solid var(--navy3)}
+.mkcard:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(11,29,56,.14);border-left-color:var(--gold)}
+.mkcard h4{font-size:14.5px;line-height:1.35;color:var(--navy2)}
+.mkcard .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--muted)}
+.mkcard p{font-size:12.6px;color:var(--muted)}
+.pager{display:flex;gap:6px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.pager button{min-width:36px;height:34px;border:1px solid #d9e1ee;background:#fff;border-radius:8px;cursor:pointer;font-weight:700;color:var(--navy2)}
+.pager button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.footer{background:linear-gradient(180deg,var(--gold2) 0%,var(--gold) 100%);color:#3a2c00;margin-top:34px;padding:26px 16px}
+.footer .cols{max-width:1180px;margin:0 auto;display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.footer h5{font-size:14px;margin-bottom:8px;color:#2c2200;text-transform:uppercase;letter-spacing:.5px}
+.footer ul{list-style:none;font-size:12.6px}
+.footer li{padding:3px 0}
+.footer .copy{max-width:1180px;margin:20px auto 0;border-top:1px solid rgba(58,44,0,.2);padding-top:12px;font-size:12px;text-align:center;color:#4a3a00}
+.tblwrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{background:var(--navy2);color:#fff;text-align:left;padding:10px 12px;font-size:12.5px;position:sticky;top:0}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#fafcff}
+.breadcrumb{font-size:12.5px;color:#9db4d4;margin-bottom:10px}
+.breadcrumb a{color:#cfe0f5}
+.section-title{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:17px;font-weight:800;color:var(--navy2)}
+.section-title:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--navy3),transparent)}
+.note{background:#f7faff;border:1px dashed #c8d8ee;border-radius:10px;padding:12px;font-size:12.8px;color:var(--navy3)}
+.cert{background:#fff;border:10px double var(--navy3);border-radius:4px;padding:26px 22px;text-align:center;position:relative;overflow:hidden}
+.cert:before{content:"";position:absolute;inset:8px;border:1.5px solid var(--gold);border-radius:2px;pointer-events:none}
+.cert h2{font-size:24px;letter-spacing:1.5px;color:var(--navy);text-transform:uppercase;margin-bottom:4px}
+.cert .sub{font-size:11.5px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.cert .who{font-size:26px;font-weight:800;color:var(--navy4);border-bottom:2px solid var(--gold);display:inline-block;padding:0 18px 4px;margin:10px 0}
+.cert .desc{font-size:13.4px;color:#33465c;max-width:640px;margin:12px auto 0}
+.cert .mkname{font-weight:800;color:var(--navy2)}
+.seal{width:96px;height:96px;border-radius:50%;border:3px solid var(--gold);background:radial-gradient(circle at 30% 30%,#fff8e3,var(--gold2));display:grid;place-items:center;margin:18px auto 8px;color:#7a5600;font-weight:900;font-size:11px;text-align:center;line-height:1.15;box-shadow:0 4px 14px rgba(255,201,60,.4)}
+.sign{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-size:12px;color:#33465c;flex-wrap:wrap}
+.sign div{flex:1;min-width:170px;text-align:center}
+.sign .line{border-top:1.5px solid var(--navy3);margin-bottom:5px;height:44px}
+.ribbon{position:absolute;top:14px;right:-46px;transform:rotate(38deg);background:var(--navy);color:var(--gold);font-size:11px;font-weight:800;letter-spacing:1px;padding:5px 52px}
+@media print{.top,.pager,.no-print,.footer{display:none!important}.hero{display:none}body{background:#fff}}
+@media(max-width:640px){.nav{gap:12px;font-size:12.5px}.hero h1{font-size:22px}.cert h2{font-size:18px}.cert .who{font-size:20px}}
+
+.tab{border:1px solid #d9e1ee;background:#fff;border-radius:9px;padding:8px 14px;font-weight:700;cursor:pointer;color:var(--navy2);font-size:13px}
+.tab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="inner">
+    <div class="brand"><span class="logo">M</span><span>PUSAT DATA<small>SMART CAMPUS UNIVERSITAS MULIA</small></span></div>
+    <nav class="nav">
+      <a href="index.html" class="">Profil</a>
+      <a href="kurikulum.html" class="">Akademik</a>
+      <a href="compiler.html" class="on">Kompiler</a>
+      <a href="repository.html" class="">Repositori</a>
+      <a href="index.html#panduan" class="">Panduan</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero" style="padding:24px 16px 52px">
+  <h1>Kompiler Daring Smart Campus</h1>
+  <p>Tulis, jalankan, dan uji kode <b>C++</b>, <b>JavaScript</b>, <b>PHP</b>, dan <b>Python</b> langsung dari aplikasi.
+  Setiap eksekusi yang berhasil menambah progres sertifikat praktikum Anda.</p>
+</div>
+<div class="wrap" style="margin-top:14px">
+  <div class="grid" style="grid-template-columns:1.25fr .75fr;align-items:start">
+    <div class="card" style="padding:12px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><button class="tab " data-l="cplusplus">C++</button><button class="tab on" data-l="javascript">JavaScript</button><button class="tab " data-l="php">PHP</button><button class="tab " data-l="python">Python</button>
+        <span class="chip teal" style="margin-left:auto" id="status">Siap</span>
+      </div>
+      <textarea id="code" spellcheck="false" style="width:100%;height:330px;font-family:Consolas,'Courier New',monospace;font-size:13px;
+        background:#0b1d38;color:#e8f0fb;border:0;border-radius:10px;padding:12px;line-height:1.5;resize:vertical"></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn gold" onclick="run()">▶ Jalankan</button>
+        <button class="btn ghost sm" onclick="muatContoh()">Contoh Kode</button>
+        <button class="btn ghost sm" onclick="bersihkan()">Bersihkan</button>
+        <button class="btn ghost sm" onclick="salin()">Salin</button>
+        <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="timer"></span>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="padding:12px">
+        <h4 style="color:var(--navy2);margin-bottom:8px">Keluaran (stdout / stderr)</h4>
+        <pre id="out" style="background:#07101f;color:#8ef2c4;border-radius:10px;padding:12px;min-height:190px;max-height:300px;overflow:auto;font-size:12.6px;white-space:pre-wrap;word-break:break-word">Tekan "Jalankan" untuk mengeksekusi kode.</pre>
+        <div style="font-size:11.6px;color:var(--muted);margin-top:6px" id="meta">Kompiler: Judge0 CE (ce.judge0.com) • butuh koneksi internet</div>
+      </div>
+      <div class="card" style="margin-top:12px;padding:12px">
+        <h4 style="color:var(--navy2);margin-bottom:6px">Sertifikat Praktikum</h4>
+        <div style="font-size:12.6px;color:var(--muted)">Eksekusi berhasil: <b id="prog">0</b> / 5</div>
+        <div style="height:9px;background:#e8eef8;border-radius:99px;margin:8px 0;overflow:hidden"><div id="bar" style="height:100%;width:0;background:linear-gradient(90deg,var(--navy3),var(--gold))"></div></div>
+        <button class="btn sm" onclick="cetakSertifikat()">🎓 Buka Halaman Sertifikat</button>
+      </div>
+      <div class="note" style="margin-top:12px">
+        <b>Tips:</b> gunakan kompiler ini untuk praktikum mata kuliah Algoritma dan Pemrograman, Struktur Data,
+        Pemrograman Web, Kecerdasan Buatan, dan lainnya. Semua mata kuliah memiliki link kompiler pada halaman sertifikatnya.
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Riwayat Eksekusi (tersimpan di perangkat)</div>
+  <div class="tblwrap"><table id="hist"><thead><tr><th>Waktu</th><th>Bahasa</th><th>Status</th><th>Ringkasan Kode</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<div class="footer">
+  <div class="cols">
+    <div>
+      <h5>Smart Campus Universitas Mulia</h5>
+      <ul>
+        <li>Fakultas Ilmu Komputer</li>
+        <li>Program Studi S1 Informatika</li>
+        <li>Kurikulum 2026/2027 • 58 mata kuliah • 168 SKS</li>
+        <li>Versi aplikasi 1.0.0</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Akses Cepat</h5>
+      <ul>
+        <li><a href="index.html">Beranda Biro Akademik</a></li>
+        <li><a href="kurikulum.html">Kurikulum &amp; Mata Kuliah</a></li>
+        <li><a href="compiler.html">Kompiler C++ / JS / PHP / Python</a></li>
+        <li><a href="repository.html">Repositori &amp; Link GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Biro Akademik</h5>
+      <ul>
+        <li>Kampus Balikpapan — Kalimantan Timur</li>
+        <li>Jam layanan: 08.00 – 16.00 WITA</li>
+        <li>Call Center: (0542) 123-456</li>
+        <li>Email: baak@universitasmulia.ac.id</li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">Copyright &copy; 2026 Universitas Mulia • Smart Campus • Dibangun dengan Flutter (Dart)</div>
+</div>
+
+
+<script>
+var SAMPLES={"cplusplus": {"code": "// Kompiler C++ \u2014 Smart Campus Universitas Mulia\n#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"Halo, Smart Campus Universitas Mulia!\" << endl;\n    int total = 0;\n    for (int i = 1; i <= 5; i++) total += i;\n    cout << \"Total SKS 5 matkul pertama: \" << total << endl;\n    return 0;\n}\n", "out": "Halo, Smart Campus Universitas Mulia!\nTotal SKS 5 matkul pertama: 15"}, "javascript": {"code": "// Kompiler JavaScript (Node.js) \u2014 Smart Campus Universitas Mulia\nconst mk = [\n  { kode: '110100', nama: 'Algoritma dan Pemrograman', sks: 3 },\n  { kode: '114100', nama: 'Struktur Data', sks: 3 },\n  { kode: '010500', nama: 'Pemrograman Web', sks: 3 },\n];\nlet total = 0;\nmk.forEach(m => { total += m.sks; console.log(`${m.kode} - ${m.nama} (${m.sks} SKS)`); });\nconsole.log('Total SKS:', total);\n", "out": "110100 - Algoritma dan Pemrograman (3 SKS)\n114100 - Struktur Data (3 SKS)\n010500 - Pemrograman Web (3 SKS)\nTotal SKS: 9"}, "php": {"code": "<?php\n// Kompiler PHP \u2014 Smart Campus Universitas Mulia\n$nilai = [85, 90, 78, 92, 88];\n$total = array_sum($nilai);\n$rata = $total / count($nilai);\necho \"Nilai: \" . implode(', ', $nilai) . PHP_EOL;\necho \"Total: $total  |  Rata-rata: $rata\" . PHP_EOL;\n", "out": "Nilai: 85, 90, 78, 92, 88\nTotal: 433  |  Rata-rata: 86.6"}, "python": {"code": "# Kompiler Python \u2014 Smart Campus Universitas Mulia\ndef ipk(sks_nilai):\n    total_sks = sum(s for s, _ in sks_nilai)\n    total_mutu = sum(s * n for s, n in sks_nilai)\n    return total_mutu / total_sks\n\ndata = [(3, 4.0), (3, 3.5), (2, 3.0), (3, 4.0)]\nprint('IPK mahasiswa:', round(ipk(data), 2))\nprint('Total SKS:', sum(s for s, _ in data))\n", "out": "IPK mahasiswa: 3.73\nTotal SKS: 11"}}, PISTON={"cplusplus": {"lang": "c++", "ver": "10.2.0", "label": "C++"}, "javascript": {"lang": "javascript", "ver": "18.15.0", "label": "JavaScript"}, "php": {"lang": "php", "ver": "8.2.3", "label": "PHP"}, "python": {"lang": "python", "ver": "3.10.0", "label": "Python"}};
+var cur='javascript';
+function el(id){return document.getElementById(id);}
+function setStatus(t){
+  el('status').textContent=t;
+  if(window.MuliaApp&&window.MuliaApp.postMessage) { /* no-op */ }
+}
+function muatContoh(){ el('code').value=SAMPLES[cur].code; setStatus('Contoh dimuat'); }
+function bersihkan(){ el('code').value=''; el('out').textContent=''; setStatus('Dibersihkan'); }
+function salin(){
+  var t=el('code'); t.select(); document.execCommand('copy');
+  if(navigator.clipboard) navigator.clipboard.writeText(t.value);
+  setStatus('Kode disalin');
+}
+document.querySelectorAll('.tab').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.l; muatContoh(); el('out').textContent='Bahasa: '+PISTON[cur].label+' — tekan Jalankan.';
+  });
+});
+function saveLocal(k,v){ try{localStorage.setItem(k,v);}catch(e){} }
+function getLocal(k,d){ try{return localStorage.getItem(k)||d;}catch(e){return d;} }
+function refreshProg(){
+  var n=parseInt(getLocal('mulia_run_ok','0'),10); el('prog').textContent=n;
+  el('bar').style.width=Math.min(100,(n/5)*100)+'%';
+}
+function addHist(lang, status, code){
+  try{
+    var h=JSON.parse(getLocal('mulia_hist','[]'));
+    h.unshift({t:new Date().toLocaleString('id-ID'), l:PISTON[lang].label, s:status, c:(code.split('\n')[0]||'').slice(0,60)});
+    h=h.slice(0,12); saveLocal('mulia_hist', JSON.stringify(h)); renderHist(h);
+  }catch(e){}
+}
+function renderHist(h){
+  var tb=document.querySelector('#hist tbody'); tb.innerHTML='';
+  (h||[]).forEach(function(r){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+r.t+'</td><td>'+r.l+'</td><td>'+r.s+'</td><td style="font-family:monospace;font-size:11.6px">'+r.c.replace(/</g,'&lt;')+'</td>';
+    tb.appendChild(tr);
+  });
+}
+/* ---------------------------------------------------------------------------
+   KOMPILER DARING — Judge0 CE (https://ce.judge0.com)
+   Sejak 15 Februari 2026 API publik Piston (emkc.org) menjadi whitelist-only
+   sehingga setiap permintaan dijawab 401. Halaman ini memakai Judge0 CE yang
+   gratis dan tidak memerlukan API key, lalu mengembalikan bentuk data seperti
+   Piston ({run:{output, stdout, stderr, code}}) supaya bagian tampilan di
+   bawahnya tidak perlu diubah.
+   --------------------------------------------------------------------------- */
+var JUDGE0_ID={'cplusplus':105,'c++':105,'javascript':97,'php':98,'python':92};
+function judge0Run(spec, code, kunci){
+  var id=JUDGE0_ID[kunci]||JUDGE0_ID[(spec&&spec.lang)||'']||92;
+  return fetch('https://ce.judge0.com/submissions?base64_encoded=false&wait=true',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({source_code:code, language_id:id, stdin:''})
+  }).then(function(r){
+    return r.text().then(function(t){
+      var d={}; try{ d=JSON.parse(t); }catch(e){ d={error:t}; }
+      if(!r.ok){
+        var pesan=(d&&(d.error||d.message))||t||('HTTP '+r.status);
+        throw new Error('HTTP '+r.status+' — '+pesan);
+      }
+      return d;
+    });
+  }).then(function(d){
+    var st=d.status||{}, keluar=(d.stdout||''), galat=(d.stderr||''), komp=(d.compile_output||'');
+    var gabung=komp+(komp&&keluar?'\n':'')+keluar+((galat&&(komp||keluar))?'\n':'')+galat;
+    var ok=(st.id===3);
+    return {run:{output:gabung, stdout:keluar, stderr:galat, code:ok?0:1}, status:st, time:d.time, memory:d.memory};
+  });
+}
+function run(){
+  var code=el('code').value, spec=PISTON[cur];
+  if(!code.trim()){ setStatus('Kode kosong'); return; }
+  setStatus('Mengirim ke kompiler…'); el('out').textContent='Menjalankan…';
+  var t0=Date.now();
+  judge0Run(spec, code, cur).then(function(d){
+    var o=(d.run&&d.run.output)?d.run.output:JSON.stringify(d);
+    el('out').textContent=o||'(tanpa keluaran)';
+    var ok = d.run && d.run.code===0;
+    el('meta').textContent='Kompiler: Judge0 CE • '+spec.label+' '+spec.ver+' • exit code '+(d.run?d.run.code:'-')+' • '+(Date.now()-t0)+' ms';
+    setStatus(ok?'Berhasil':'Ada error');
+    addHist(cur, ok?'OK':'ERROR', code);
+    if(ok){ saveLocal('mulia_run_ok', String(parseInt(getLocal('mulia_run_ok','0'),10)+1)); refreshProg(); }
+  }).catch(function(e){
+    el('out').textContent='⚠️ Tidak dapat menghubungi kompiler daring (butuh koneksi internet).\n\n'
+      +'Mode demo — keluaran yang diharapkan untuk contoh '+spec.label+':\n--------------------------------------\n'+SAMPLES[cur].out
+      +'\n\nDetail: '+e;
+    el('meta').textContent='Offline / tanpa jaringan • mode demo';
+    setStatus('Offline (demo)');
+    addHist(cur,'OFFLINE', code);
+  });
+}
+function cetakSertifikat(){
+  window.location.href='matkul/110100.html';
+}
+muatContoh(); refreshProg(); renderHist(JSON.parse(getLocal('mulia_hist','[]')));
+</script>
+</body>
+</html>

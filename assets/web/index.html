@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beranda BAAK — Smart Campus Universitas Mulia</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --navy:#07101f; --navy2:#0b1d38; --navy3:#123059; --navy4:#1b3f70;
+ --gold:#ffc93c; --gold2:#ffe08a; --blue:#2f7bff; --teal:#22c1a4;
+ --ink:#0d1b2a; --muted:#5b6b80; --line:#e3e8f0; --bg:#f2f5fa;
+}
+body{font-family:'Segoe UI',Roboto,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:var(--navy4);text-decoration:none}
+a:hover{text-decoration:underline}
+.top{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(7,16,31,.35)}
+.top .inner{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:17px}
+.brand small{display:block;font-weight:500;font-size:10.5px;color:#a9c0dd;letter-spacing:.6px}
+.nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap;font-size:13.5px}
+.nav a{color:#dce8f7;padding:4px 2px;border-bottom:2px solid transparent}
+.nav a.on,.nav a:hover{border-color:var(--gold);color:#fff;text-decoration:none}
+.hero{background:radial-gradient(120% 140% at 50% -30%,var(--navy3) 0%,var(--navy2) 45%,var(--navy) 100%);color:#fff;padding:34px 16px 74px;text-align:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:auto 0 0 0;height:64px;background:linear-gradient(180deg,transparent,rgba(255,201,60,.14))}
+.hero h1{font-size:29px;letter-spacing:.3px;margin-bottom:10px;color:var(--gold2)}
+.hero p{max-width:720px;margin:0 auto;color:#c8d8ee;font-size:14px}
+.searchbar{max-width:720px;margin:22px auto 0;background:#fff;border-radius:12px;display:flex;gap:8px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative;z-index:2}
+.searchbar input{flex:1;border:0;outline:0;padding:11px 12px;font-size:14px;color:var(--ink)}
+.searchbar button{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:0 20px;font-weight:700;cursor:pointer;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(13,27,42,.05)}
+.chip{display:inline-block;background:#eef3fb;color:var(--navy3);border:1px solid #d5e0f2;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700}
+.chip.gold{background:#fff5d9;border-color:#f5de9a;color:#8a6100}
+.chip.teal{background:#e4f7f2;border-color:#b9e9df;color:#0f6b58}
+.btn{display:inline-block;border:0;border-radius:9px;padding:10px 16px;font-weight:700;font-size:13.5px;cursor:pointer;background:var(--navy);color:#fff}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.ghost{background:#fff;color:var(--navy);border:1.6px solid var(--navy3)}
+.btn.sm{padding:7px 12px;font-size:12.5px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.g3{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.mkcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:8px;transition:.18s;border-left:4px solid var(--navy3)}
+.mkcard:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(11,29,56,.14);border-left-color:var(--gold)}
+.mkcard h4{font-size:14.5px;line-height:1.35;color:var(--navy2)}
+.mkcard .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--muted)}
+.mkcard p{font-size:12.6px;color:var(--muted)}
+.pager{display:flex;gap:6px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.pager button{min-width:36px;height:34px;border:1px solid #d9e1ee;background:#fff;border-radius:8px;cursor:pointer;font-weight:700;color:var(--navy2)}
+.pager button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.footer{background:linear-gradient(180deg,var(--gold2) 0%,var(--gold) 100%);color:#3a2c00;margin-top:34px;padding:26px 16px}
+.footer .cols{max-width:1180px;margin:0 auto;display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.footer h5{font-size:14px;margin-bottom:8px;color:#2c2200;text-transform:uppercase;letter-spacing:.5px}
+.footer ul{list-style:none;font-size:12.6px}
+.footer li{padding:3px 0}
+.footer .copy{max-width:1180px;margin:20px auto 0;border-top:1px solid rgba(58,44,0,.2);padding-top:12px;font-size:12px;text-align:center;color:#4a3a00}
+.tblwrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{background:var(--navy2);color:#fff;text-align:left;padding:10px 12px;font-size:12.5px;position:sticky;top:0}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#fafcff}
+.breadcrumb{font-size:12.5px;color:#9db4d4;margin-bottom:10px}
+.breadcrumb a{color:#cfe0f5}
+.section-title{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:17px;font-weight:800;color:var(--navy2)}
+.section-title:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--navy3),transparent)}
+.note{background:#f7faff;border:1px dashed #c8d8ee;border-radius:10px;padding:12px;font-size:12.8px;color:var(--navy3)}
+.cert{background:#fff;border:10px double var(--navy3);border-radius:4px;padding:26px 22px;text-align:center;position:relative;overflow:hidden}
+.cert:before{content:"";position:absolute;inset:8px;border:1.5px solid var(--gold);border-radius:2px;pointer-events:none}
+.cert h2{font-size:24px;letter-spacing:1.5px;color:var(--navy);text-transform:uppercase;margin-bottom:4px}
+.cert .sub{font-size:11.5px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.cert .who{font-size:26px;font-weight:800;color:var(--navy4);border-bottom:2px solid var(--gold);display:inline-block;padding:0 18px 4px;margin:10px 0}
+.cert .desc{font-size:13.4px;color:#33465c;max-width:640px;margin:12px auto 0}
+.cert .mkname{font-weight:800;color:var(--navy2)}
+.seal{width:96px;height:96px;border-radius:50%;border:3px solid var(--gold);background:radial-gradient(circle at 30% 30%,#fff8e3,var(--gold2));display:grid;place-items:center;margin:18px auto 8px;color:#7a5600;font-weight:900;font-size:11px;text-align:center;line-height:1.15;box-shadow:0 4px 14px rgba(255,201,60,.4)}
+.sign{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-size:12px;color:#33465c;flex-wrap:wrap}
+.sign div{flex:1;min-width:170px;text-align:center}
+.sign .line{border-top:1.5px solid var(--navy3);margin-bottom:5px;height:44px}
+.ribbon{position:absolute;top:14px;right:-46px;transform:rotate(38deg);background:var(--navy);color:var(--gold);font-size:11px;font-weight:800;letter-spacing:1px;padding:5px 52px}
+@media print{.top,.pager,.no-print,.footer{display:none!important}.hero{display:none}body{background:#fff}}
+@media(max-width:640px){.nav{gap:12px;font-size:12.5px}.hero h1{font-size:22px}.cert h2{font-size:18px}.cert .who{font-size:20px}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="inner">
+    <div class="brand"><span class="logo">M</span><span>PUSAT DATA<small>SMART CAMPUS UNIVERSITAS MULIA</small></span></div>
+    <nav class="nav">
+      <a href="index.html" class="on">Profil</a>
+      <a href="kurikulum.html" class="">Akademik</a>
+      <a href="compiler.html" class="">Kompiler</a>
+      <a href="repository.html" class="">Repositori</a>
+      <a href="index.html#panduan" class="">Panduan</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>Biro Akademik Universitas Mulia</h1>
+  <p>Pantau selalu informasi terupdate dari Biro Akademik Smart Campus untuk mendapatkan informasi-informasi
+  penting mengenai akademik, kurikulum, sertifikat capaian mata kuliah, layanan akademik, kompiler daring,
+  hingga repositori GitHub Universitas Mulia.</p>
+  <div class="searchbar">
+    <input id="q" placeholder="Cari mata kuliah, kode MK, atau semester…">
+    <button onclick="doSearch()">Cari</button>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:-42px">
+  <div class="section-title">Info Terbaru</div>
+  <div class="grid g2"><article class="card"><div class="meta" style="margin-bottom:6px"><span class="chip gold">Info Terbaru</span></div>
+        <h4 style="font-size:14.5px;color:var(--navy2);margin-bottom:6px">Sosialisasi MSIB Batch 7: Kiat Sukses Program Merdeka Belajar Kampus Merdeka</h4>
+        <p style="font-size:12.6px;color:var(--muted)">Untuk meningkatkan minat mahasiswa dalam program MBKM Kampus Merdeka, pada tanggal 31 Mei 2024 dilaksanakan sosialisasi program Magang dan Studi Independen Bersertifikat.</p></article><article class="card"><div class="meta" style="margin-bottom:6px"><span class="chip gold">Info Terbaru</span></div>
+        <h4 style="font-size:14.5px;color:var(--navy2);margin-bottom:6px">Info Akademik Genap 2023/2024</h4>
+        <p style="font-size:12.6px;color:var(--muted)">Dear mahasiswa Universitas Mulia, kalender Akademik Tahun 2023/2024 Genap sudah diterbitkan, kami beritahukan kepada mahasiswa dan harap dipertahankan hal-hal sebagai berikut.</p></article><article class="card"><div class="meta" style="margin-bottom:6px"><span class="chip gold">Info Terbaru</span></div>
+        <h4 style="font-size:14.5px;color:var(--navy2);margin-bottom:6px">Pemberitahuan Akademik Genap 2021/2022</h4>
+        <p style="font-size:12.6px;color:var(--muted)">Dear mahasiswa Universitas Mulia, terkait Kalender Akademik Tahun 2021/2022 Genap sudah diterbitkan, kami beritahukan kepada mahasiswa dan harap dipertahankan hal-hal sebagai berikut.</p></article><article class="card"><div class="meta" style="margin-bottom:6px"><span class="chip gold">Info Terbaru</span></div>
+        <h4 style="font-size:14.5px;color:var(--navy2);margin-bottom:6px">Login Email Mahasiswa</h4>
+        <p style="font-size:12.6px;color:var(--muted)">Login email students Universitas Mulia yang dimaksud adalah fasilitas yang digunakan mahasiswa untuk mengakses layanan dari Google For Education, diantaranya.</p></article><article class="card"><div class="meta" style="margin-bottom:6px"><span class="chip gold">Info Terbaru</span></div>
+        <h4 style="font-size:14.5px;color:var(--navy2);margin-bottom:6px">Pemberitahuan Akademik Ganjil 2021/2022</h4>
+        <p style="font-size:12.6px;color:var(--muted)">Dear mahasiswa Universitas Mulia, terkait Kalender Akademik Tahun 2021/2022 Ganjil sudah diterbitkan, kami beritahukan kepada mahasiswa dan harap dipertahankan hal-hal sebagai berikut.</p></article><article class="card"><div class="meta" style="margin-bottom:6px"><span class="chip gold">Info Terbaru</span></div>
+        <h4 style="font-size:14.5px;color:var(--navy2);margin-bottom:6px">Panduan KRS Semester Antara</h4>
+        <p style="font-size:12.6px;color:var(--muted)">Langkah awal adalah login pada website sistem informasi akademik universitas mulia SIMA. Login – UNIVERSITAS MULIA. Apabila login tidak berhasil, silakan hubungi operator prodi.</p></article><article class="card"><div class="meta" style="margin-bottom:6px"><span class="chip gold">Info Terbaru</span></div>
+        <h4 style="font-size:14.5px;color:var(--navy2);margin-bottom:6px">Panduan Pengisian KRS Online</h4>
+        <p style="font-size:12.6px;color:var(--muted)">Pastikan mata kuliah prasyarat sudah lulus sebelum mengambil mata kuliah lanjutan. Cek daftar MK Prasyarat pada halaman kurikulum aplikasi ini.</p></article><article class="card"><div class="meta" style="margin-bottom:6px"><span class="chip gold">Info Terbaru</span></div>
+        <h4 style="font-size:14.5px;color:var(--navy2);margin-bottom:6px">Sertifikat Kompetensi Mata Kuliah</h4>
+        <p style="font-size:12.6px;color:var(--muted)">Setiap mata kuliah pada Smart Campus ini memiliki halaman web bertema sertifikat: lihat CPL, materi, praktikum, lalu cetak sertifikat capaian pembelajaran Anda.</p></article></div>
+
+  <div class="section-title" id="panduan">Kurikulum S1 Informatika — 58 Mata Kuliah / 168 SKS</div>
+  <div id="list"><div class="grid g3 page-block" data-page="1" style="display:grid"><a class="mkcard" href="matkul/000100.html" data-s="000100 bahasa indonesia 1">
+  <div class="meta"><span class="chip">000100</span><span class="chip gold">Semester 1</span><span class="chip teal">2 SKS</span></div>
+  <h4>Bahasa Indonesia</h4>
+  <p>Bahasa Indonesia akademik: ejaan, kalimat efektif, dan penulisan karya ilmiah.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/000400.html" data-s="000400 pancasila 1">
+  <div class="meta"><span class="chip">000400</span><span class="chip gold">Semester 1</span><span class="chip teal">2 SKS</span></div>
+  <h4>Pancasila</h4>
+  <p>Pancasila: nilai-nilai dasar negara dan implementasinya dalam kehidupan berbangsa dan berprofesi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/110400.html" data-s="110400 etika profesi 1">
+  <div class="meta"><span class="chip">110400</span><span class="chip gold">Semester 1</span><span class="chip teal">2 SKS</span></div>
+  <h4>Etika Profesi</h4>
+  <p>Etika profesi TI: kode etik, hak kekayaan intelektual, privasi, dan tanggung jawab profesional.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/001000.html" data-s="001000 teknologi informasi 1">
+  <div class="meta"><span class="chip">001000</span><span class="chip gold">Semester 1</span><span class="chip teal">3 SKS</span></div>
+  <h4>Teknologi Informasi</h4>
+  <p>Literasi teknologi informasi: perangkat keras/lunak, jaringan dasar, keamanan, dan produktivitas digital.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/110100.html" data-s="110100 algoritma dan pemrograman 1">
+  <div class="meta"><span class="chip">110100</span><span class="chip gold">Semester 1</span><span class="chip teal">3 SKS</span></div>
+  <h4>Algoritma dan Pemrograman</h4>
+  <p>Dasar logika pemrograman dan implementasi algoritma menjadi program yang benar dan efisien.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/110300.html" data-s="110300 bahasa inggris 1">
+  <div class="meta"><span class="chip">110300</span><span class="chip gold">Semester 1</span><span class="chip teal">3 SKS</span></div>
+  <h4>Bahasa Inggris</h4>
+  <p>Bahasa Inggris teknis untuk bidang informatika: reading, writing, listening, dan presentation.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/110800.html" data-s="110800 logika informatika 1">
+  <div class="meta"><span class="chip">110800</span><span class="chip gold">Semester 1</span><span class="chip teal">3 SKS</span></div>
+  <h4>Logika Informatika</h4>
+  <p>Logika matematika dan penalaran formal untuk pemrograman dan kecerdasan buatan.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/110900.html" data-s="110900 matematika i 1">
+  <div class="meta"><span class="chip">110900</span><span class="chip gold">Semester 1</span><span class="chip teal">2 SKS</span></div>
+  <h4>Matematika I</h4>
+  <p>Fondasi matematika komputasi: logika, himpunan, relasi, fungsi, matriks, dan limit.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111200.html" data-s="111200 interaksi manusia dan komputer 1">
+  <div class="meta"><span class="chip">111200</span><span class="chip gold">Semester 1</span><span class="chip teal">3 SKS</span></div>
+  <h4>Interaksi Manusia dan Komputer</h4>
+  <p>Interaksi manusia dan komputer: prinsip usability, desain antarmuka, dan evaluasi UX.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/000700.html" data-s="000700 pendidikan kewarganegaraan 2">
+  <div class="meta"><span class="chip">000700</span><span class="chip gold">Semester 2</span><span class="chip teal">2 SKS</span></div>
+  <h4>Pendidikan Kewarganegaraan</h4>
+  <p>Pendidikan Kewarganegaraan: hak/kewajiban warga negara, demokrasi, dan wawasan nusantara.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111700.html" data-s="111700 aljabar linier dan matriks 2">
+  <div class="meta"><span class="chip">111700</span><span class="chip gold">Semester 2</span><span class="chip teal">2 SKS</span></div>
+  <h4>Aljabar Linier dan Matriks</h4>
+  <p>Aljabar linear dan matriks untuk grafika komputer, machine learning, dan kriptografi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Matematika I</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112400.html" data-s="112400 komunikasi data 2">
+  <div class="meta"><span class="chip">112400</span><span class="chip gold">Semester 2</span><span class="chip teal">3 SKS</span></div>
+  <h4>Komunikasi Data</h4>
+  <p>Prinsip pengiriman data antar perangkat: encoding, modulasi, deteksi galat, dan protokol komunikasi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112600.html" data-s="112600 matematika ii 2">
+  <div class="meta"><span class="chip">112600</span><span class="chip gold">Semester 2</span><span class="chip teal">2 SKS</span></div>
+  <h4>Matematika II</h4>
+  <p>Matematika lanjutan untuk informatika: integral, deret, transformasi, dan aljabar linear terapan.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Matematika I</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/113200.html" data-s="113200 pemrograman visual 2">
+  <div class="meta"><span class="chip">113200</span><span class="chip gold">Semester 2</span><span class="chip teal">3 SKS</span></div>
+  <h4>Pemrograman Visual</h4>
+  <p>Pengembangan aplikasi desktop berbasis GUI dengan pendekatan visual (event-driven programming).…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Algoritma dan Pemrograman</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/113400.html" data-s="113400 perangkat keras komputer 2">
+  <div class="meta"><span class="chip">113400</span><span class="chip gold">Semester 2</span><span class="chip teal">3 SKS</span></div>
+  <h4>Perangkat Keras Komputer</h4>
+  <p>Perangkat keras komputer: komponen PC, perakitan, instalasi, dan troubleshooting.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Teknologi Informasi</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/113700.html" data-s="113700 sistem digital 2">
+  <div class="meta"><span class="chip">113700</span><span class="chip gold">Semester 2</span><span class="chip teal">3 SKS</span></div>
+  <h4>Sistem Digital</h4>
+  <p>Rangkaian digital: gerbang logika, aljabar boolean, rangkaian kombinasional &amp; sekuensial.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Logika Informatika</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/114100.html" data-s="114100 struktur data 2">
+  <div class="meta"><span class="chip">114100</span><span class="chip gold">Semester 2</span><span class="chip teal">3 SKS</span></div>
+  <h4>Struktur Data</h4>
+  <p>Struktur data lanjut: linked list, stack, queue, tree, graph beserta analisis kompleksitasnya.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Algoritma dan Pemrograman</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/113100.html" data-s="113100 pemrograman java 2">
+  <div class="meta"><span class="chip">113100</span><span class="chip gold">Semester 2</span><span class="chip teal">3 SKS</span></div>
+  <h4>Pemrograman Java</h4>
+  <p>Pemrograman berorientasi objek dengan Java: class, object, inheritance, polymorphism, dan GUI dasar.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Algoritma dan Pemrograman</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a></div><div class="grid g3 page-block" data-page="2" style="display:none"><a class="mkcard" href="matkul/000600.html" data-s="000600 pendidikan anti korupsi 3">
+  <div class="meta"><span class="chip">000600</span><span class="chip gold">Semester 3</span><span class="chip teal">2 SKS</span></div>
+  <h4>Pendidikan Anti Korupsi</h4>
+  <p>Pendidikan Anti Korupsi: memahami korupsi, integritas, dan upaya pencegahannya.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/000500.html" data-s="000500 pendidikan agama 3">
+  <div class="meta"><span class="chip">000500</span><span class="chip gold">Semester 3</span><span class="chip teal">2 SKS</span></div>
+  <h4>Pendidikan Agama</h4>
+  <p>Pendidikan Agama: pembentukan karakter, etika, dan spiritualitas dalam profesi teknologi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/001200.html" data-s="001200 wirausaha berbasis teknologi 3">
+  <div class="meta"><span class="chip">001200</span><span class="chip gold">Semester 3</span><span class="chip teal">4 SKS</span></div>
+  <h4>Wirausaha Berbasis Teknologi</h4>
+  <p>Kewirausahaan berbasis teknologi: ide bisnis digital, model bisnis, prototipe, dan pitching.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/010100.html" data-s="010100 jaringan komputer 3">
+  <div class="meta"><span class="chip">010100</span><span class="chip gold">Semester 3</span><span class="chip teal">3 SKS</span></div>
+  <h4>Jaringan Komputer</h4>
+  <p>Konsep jaringan komputer: model OSI/TCP-IP, pengalamatan IP, routing, dan konfigurasi perangkat.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Komunikasi Data</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/010500.html" data-s="010500 pemrograman web 3">
+  <div class="meta"><span class="chip">010500</span><span class="chip gold">Semester 3</span><span class="chip teal">3 SKS</span></div>
+  <h4>Pemrograman Web</h4>
+  <p>Membangun aplikasi web modern: HTML, CSS, JavaScript, PHP, dan integrasi basis data MySQL.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Algoritma dan Pemrograman</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/010600.html" data-s="010600 sistem basis data 3">
+  <div class="meta"><span class="chip">010600</span><span class="chip gold">Semester 3</span><span class="chip teal">3 SKS</span></div>
+  <h4>Sistem Basis Data</h4>
+  <p>Perancangan dan pengelolaan basis data relasional: ERD, normalisasi, SQL, dan transaksi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Teknologi Informasi</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/010700.html" data-s="010700 sistem operasi 3">
+  <div class="meta"><span class="chip">010700</span><span class="chip gold">Semester 3</span><span class="chip teal">3 SKS</span></div>
+  <h4>Sistem Operasi</h4>
+  <p>Konsep dan praktik sistem operasi: proses, memori, penjadwalan, sistem berkas, dan shell.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Sistem Digital</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/110200.html" data-s="110200 analisis desain berorientasi objek 3">
+  <div class="meta"><span class="chip">110200</span><span class="chip gold">Semester 3</span><span class="chip teal">3 SKS</span></div>
+  <h4>Analisis Desain Berorientasi Objek</h4>
+  <p>Analisis dan desain perangkat lunak dengan pendekatan berorientasi objek memakai UML.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Struktur Data</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/000200.html" data-s="000200 bahasa inggris bisnis 4">
+  <div class="meta"><span class="chip">000200</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Bahasa Inggris Bisnis</h4>
+  <p>Bahasa Inggris bisnis: korespondensi profesional, negosiasi, laporan, dan presentasi bisnis.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Bahasa Inggris</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/010400.html" data-s="010400 metodologi penelitian 4">
+  <div class="meta"><span class="chip">010400</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Metodologi Penelitian</h4>
+  <p>Metodologi penelitian: perumusan masalah, tinjauan pustaka, metode, dan penulisan ilmiah.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111800.html" data-s="111800 arsitektur dan organisasi komputer 4">
+  <div class="meta"><span class="chip">111800</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Arsitektur dan Organisasi Komputer</h4>
+  <p>Arsitektur dan organisasi komputer: CPU, memori, bus, pipelining, dan aritmetika komputer.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Sistem Operasi</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111900.html" data-s="111900 grafika komputer 4">
+  <div class="meta"><span class="chip">111900</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Grafika Komputer</h4>
+  <p>Grafika komputer: primitif, transformasi, proyeksi, rendering, dan animasi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Algoritma dan Pemrograman</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112700.html" data-s="112700 metode numerik 4">
+  <div class="meta"><span class="chip">112700</span><span class="chip gold">Semester 4</span><span class="chip teal">2 SKS</span></div>
+  <h4>Metode Numerik</h4>
+  <p>Penyelesaian numerik persamaan, integrasi, dan interpolasi menggunakan komputer.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Matematika II</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/113600.html" data-s="113600 rekayasa perangkat lunak 4">
+  <div class="meta"><span class="chip">113600</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Rekayasa Perangkat Lunak</h4>
+  <p>Rekayasa perangkat lunak: proses, kebutuhan, arsitektur, pengujian, dan manajemen proyek.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: ADBO</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112200.html" data-s="112200 kecerdasan buatan 4">
+  <div class="meta"><span class="chip">112200</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Kecerdasan Buatan</h4>
+  <p>Prinsip kecerdasan buatan: pencarian, representasi pengetahuan, inferensi, dan pembelajaran mesin dasar.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Algoritma dan Pemrograman</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112800.html" data-s="112800 mikrokontroller 4">
+  <div class="meta"><span class="chip">112800</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Mikrokontroller</h4>
+  <p>Mikrokontroler: arsitektur, pemrograman embedded, sensor/aktuator, dan komunikasi serial.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Sistem Digital</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/113800.html" data-s="113800 sistem multimedia 4">
+  <div class="meta"><span class="chip">113800</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Sistem Multimedia</h4>
+  <p>Sistem multimedia: representasi audio, gambar, video, kompresi, dan aplikasi interaktif.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112000.html" data-s="112000 internet of things 4">
+  <div class="meta"><span class="chip">112000</span><span class="chip gold">Semester 4</span><span class="chip teal">3 SKS</span></div>
+  <h4>Internet of Things</h4>
+  <p>Internet of Things: arsitektur IoT, protokol komunikasi, cloud IoT, dan studi kasus smart campus.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a></div><div class="grid g3 page-block" data-page="3" style="display:none"><a class="mkcard" href="matkul/000800.html" data-s="000800 penulisan dan publikasi ilmiah 5">
+  <div class="meta"><span class="chip">000800</span><span class="chip gold">Semester 5</span><span class="chip teal">2 SKS</span></div>
+  <h4>Penulisan dan Publikasi Ilmiah</h4>
+  <p>Penulisan dan publikasi ilmiah: struktur artikel, tata cara submit, dan etika publikasi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Metodologi Penelitian</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/110700.html" data-s="110700 kriptografi 5">
+  <div class="meta"><span class="chip">110700</span><span class="chip gold">Semester 5</span><span class="chip teal">3 SKS</span></div>
+  <h4>Kriptografi</h4>
+  <p>Kriptografi: kriptografi klasik, simetris, asimetris, fungsi hash, dan penerapan keamanan.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111100.html" data-s="111100 penalaran komputer 5">
+  <div class="meta"><span class="chip">111100</span><span class="chip gold">Semester 5</span><span class="chip teal">3 SKS</span></div>
+  <h4>Penalaran Komputer</h4>
+  <p>Teknik penalaran otomatis: representasi pengetahuan, inferensi, dan penalaran probabilistik.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Kecerdasan Buatan</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111300.html" data-s="111300 robotika 5">
+  <div class="meta"><span class="chip">111300</span><span class="chip gold">Semester 5</span><span class="chip teal">3 SKS</span></div>
+  <h4>Robotika</h4>
+  <p>Robotika: kinematika, sensor, aktuator, kontrol robot, dan pemrograman robot otonom.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Mikrokontroller</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111400.html" data-s="111400 simulasi dan game komputer 5">
+  <div class="meta"><span class="chip">111400</span><span class="chip gold">Semester 5</span><span class="chip teal">3 SKS</span></div>
+  <h4>Simulasi dan Game Komputer</h4>
+  <p>Simulasi sistem dan pengembangan game: game loop, fisika, AI non-player, dan aset.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Algoritma dan Pemrograman</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/110600.html" data-s="110600 jaringan nirkabel 5">
+  <div class="meta"><span class="chip">110600</span><span class="chip gold">Semester 5</span><span class="chip teal">3 SKS</span></div>
+  <h4>Jaringan Nirkabel</h4>
+  <p>Teknologi jaringan tanpa kabel: standar WLAN, antena, propagasi, keamanan, dan IoT wireless.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Jaringan Komputer</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111000.html" data-s="111000 pemrograman aplikasi bergerak 5">
+  <div class="meta"><span class="chip">111000</span><span class="chip gold">Semester 5</span><span class="chip teal">3 SKS</span></div>
+  <h4>Pemrograman Aplikasi Bergerak</h4>
+  <p>Pemrograman aplikasi bergerak: arsitektur mobile, UI/UX, penyimpanan data, dan publikasi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Algoritma dan Pemrograman</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111600.html" data-s="111600 teknologi aplikasi bergerak 5">
+  <div class="meta"><span class="chip">111600</span><span class="chip gold">Semester 5</span><span class="chip teal">3 SKS</span></div>
+  <h4>Teknologi Aplikasi Bergerak</h4>
+  <p>Teknologi pendukung aplikasi bergerak: sensor, lokasi, kamera, push notification, dan backend.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Komunikasi Data</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/111500.html" data-s="111500 sistem manajemen basis data 5">
+  <div class="meta"><span class="chip">111500</span><span class="chip gold">Semester 5</span><span class="chip teal">3 SKS</span></div>
+  <h4>Sistem Manajemen Basis Data</h4>
+  <p>Administrasi basis data tingkat lanjut: backup, replikasi, keamanan, dan optimasi kinerja.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Sistem Basis Data</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/010200.html" data-s="010200 komunikasi publik 6">
+  <div class="meta"><span class="chip">010200</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Komunikasi Publik</h4>
+  <p>Komunikasi publik: public speaking, presentasi teknis, dan penyampaian gagasan secara efektif.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Tanpa prasyarat</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/010800.html" data-s="010800 statistika dan probabilitas 6">
+  <div class="meta"><span class="chip">010800</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Statistika dan Probabilitas</h4>
+  <p>Statistika deskriptif dan inferensial serta probabilitas untuk analisis data dan penelitian.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Matematika I</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/116200.html" data-s="116200 pembelajaran mesin 6">
+  <div class="meta"><span class="chip">116200</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Pembelajaran Mesin</h4>
+  <p>Algoritma pembelajaran mesin: regresi, klasifikasi, clustering, dan evaluasi model.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Kecerdasan Buatan</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112100.html" data-s="112100 jaringan syaraf tiruan 6">
+  <div class="meta"><span class="chip">112100</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Jaringan Syaraf Tiruan</h4>
+  <p>Jaringan syaraf tiruan: perceptron, backpropagation, CNN dasar, dan penerapannya.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Kecerdasan Buatan</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112500.html" data-s="112500 logika fuzzy 6">
+  <div class="meta"><span class="chip">112500</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Logika Fuzzy</h4>
+  <p>Sistem inferensi fuzzy: himpunan fuzzy, fungsi keanggotaan, dan metode defuzzifikasi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Kecerdasan Buatan</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/113300.html" data-s="113300 pengolahan citra digital 6">
+  <div class="meta"><span class="chip">113300</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Pengolahan Citra Digital</h4>
+  <p>Pengolahan citra digital: akuisisi, peningkatan kualitas, segmentasi, dan ekstraksi fitur.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Grafika Komputer</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/116000.html" data-s="116000 sistem pendukung keputusan 6">
+  <div class="meta"><span class="chip">116000</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Sistem Pendukung Keputusan</h4>
+  <p>Membangun sistem pendukung keputusan dengan metode MCDM dan visualisasi hasil.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Kecerdasan Buatan</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112300.html" data-s="112300 komputasi awan 6">
+  <div class="meta"><span class="chip">112300</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Komputasi Awan</h4>
+  <p>Komputasi awan: model layanan, virtualisasi, container, dan deployment aplikasi di cloud.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Kecerdasan Buatan</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/112900.html" data-s="112900 pemrograman aplikasi bergerak lanjut 6">
+  <div class="meta"><span class="chip">112900</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Pemrograman Aplikasi Bergerak Lanjut</h4>
+  <p>Pengembangan aplikasi bergerak lanjutan: arsitektur bersih, offline-first, dan optimasi.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Komunikasi Data</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a></div><div class="grid g3 page-block" data-page="4" style="display:none"><a class="mkcard" href="matkul/113000.html" data-s="113000 pemrograman framework 6">
+  <div class="meta"><span class="chip">113000</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Pemrograman Framework</h4>
+  <p>Pemrograman framework: konsep MVC/MVVM, komponen, ORM, dan REST API.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Pemrograman Aplikasi Bergerak</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/113500.html" data-s="113500 rekayasa aplikasi bergerak 6">
+  <div class="meta"><span class="chip">113500</span><span class="chip gold">Semester 6</span><span class="chip teal">3 SKS</span></div>
+  <h4>Rekayasa Aplikasi Bergerak</h4>
+  <p>Rekayasa aplikasi bergerak end-to-end: perencanaan, desain, implementasi, rilis, dan pemeliharaan.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Pemrograman Web</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/000300.html" data-s="000300 kuliah kerja nyata 7">
+  <div class="meta"><span class="chip">000300</span><span class="chip gold">Semester 7</span><span class="chip teal">4 SKS</span></div>
+  <h4>Kuliah Kerja Nyata</h4>
+  <p>Kuliah Kerja Nyata: penerapan ilmu di masyarakat melalui program pengabdian dan pelaporan.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Minimal telah menempuh minimal 110 SKS</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a><a class="mkcard" href="matkul/000900.html" data-s="000900 skripsi 8">
+  <div class="meta"><span class="chip">000900</span><span class="chip gold">Semester 8</span><span class="chip teal">6 SKS</span></div>
+  <h4>Skripsi</h4>
+  <p>Skripsi: penelitian mandiri di bawah bimbingan dosen dan pertanggungjawaban ilmiah.…</p>
+  <div class="meta" style="margin-top:auto"><span style="font-size:11.6px">Prasyarat: Minimal SKS lulus = 138 SKS dengan semua MK wajib telah lulus</span></div>
+  <div class="meta"><span class="chip" style="background:#0b1d38;color:#ffc93c;border-color:#0b1d38">Buka Web Sertifikat →</span></div>
+</a></div></div>
+  <div class="pager" id="pager"><button data-go="1" class="on">1</button><button data-go="2" class="">2</button><button data-go="3" class="">3</button><button data-go="4" class="">4</button></div>
+
+  <div class="section-title">Layanan Smart Campus</div>
+  <div class="grid g3">
+    <a class="card" href="compiler.html"><h4>💻 Kompiler Daring</h4><p style="font-size:12.7px;color:var(--muted)">Tulis dan jalankan kode C++, JavaScript, PHP, dan Python langsung dari aplikasi, lengkap dengan sertifikat praktikum.</p></a>
+    <a class="card" href="repository.html"><h4>🐙 Repositori GitHub</h4><p style="font-size:12.7px;color:var(--muted)">Kumpulan link repositori GitHub setiap mata kuliah dan panduan pengumpulan tugas berbasis Git.</p></a>
+    <a class="card" href="matkul/000100.html"><h4>🎓 Sertifikat Mata Kuliah</h4><p style="font-size:12.7px;color:var(--muted)">Setiap mata kuliah memiliki halaman sertifikat: CPL, CPMK, materi, praktikum, dan cetak sertifikat.</p></a>
+    <a class="card" href="kurikulum.html"><h4>📚 Kurikulum 8 Semester</h4><p style="font-size:12.7px;color:var(--muted)">Daftar lengkap mata kuliah, bobot SKS, dan mata kuliah prasyarat tiap semester.</p></a>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="cols">
+    <div>
+      <h5>Smart Campus Universitas Mulia</h5>
+      <ul>
+        <li>Fakultas Ilmu Komputer</li>
+        <li>Program Studi S1 Informatika</li>
+        <li>Kurikulum 2026/2027 • 58 mata kuliah • 168 SKS</li>
+        <li>Versi aplikasi 1.0.0</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Akses Cepat</h5>
+      <ul>
+        <li><a href="index.html">Beranda Biro Akademik</a></li>
+        <li><a href="kurikulum.html">Kurikulum &amp; Mata Kuliah</a></li>
+        <li><a href="compiler.html">Kompiler C++ / JS / PHP / Python</a></li>
+        <li><a href="repository.html">Repositori &amp; Link GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Biro Akademik</h5>
+      <ul>
+        <li>Kampus Balikpapan — Kalimantan Timur</li>
+        <li>Jam layanan: 08.00 – 16.00 WITA</li>
+        <li>Call Center: (0542) 123-456</li>
+        <li>Email: baak@universitasmulia.ac.id</li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">Copyright &copy; 2026 Universitas Mulia • Smart Campus • Dibangun dengan Flutter (Dart)</div>
+</div>
+
+
+<script>
+function showPage(n){
+  document.querySelectorAll('.page-block').forEach(function(b){b.style.display=(b.dataset.page==String(n))?'grid':'none';});
+  document.querySelectorAll('#pager button').forEach(function(b){b.classList.toggle('on', b.dataset.go==String(n));});
+  document.getElementById('pager').scrollIntoView({behavior:'smooth',block:'center'});
+}
+document.getElementById('pager').addEventListener('click',function(e){
+  if(e.target.dataset.go) showPage(e.target.dataset.go);
+});
+function doSearch(){
+  var q=document.getElementById('q').value.trim().toLowerCase();
+  if(!q){ document.querySelectorAll('.page-block').forEach(function(b,i){b.style.display=i===0?'grid':'none';}); return; }
+  var hit=0;
+  document.querySelectorAll('.page-block').forEach(function(b){ b.style.display='none'; });
+  document.querySelectorAll('#list .mkcard').forEach(function(c){
+    var ok=c.dataset.s.indexOf(q)>-1;
+    c.style.display=ok?'flex':'none'; if(ok)hit++;
+  });
+  document.querySelectorAll('.page-block').forEach(function(b){b.style.display='none';});
+  var box=document.getElementById('searchBox');
+  if(!box){ box=document.createElement('div'); box.id='searchBox'; box.className='note'; box.style.marginTop='12px';
+    document.getElementById('list').parentNode.insertBefore(box, document.getElementById('list')); }
+  box.innerHTML='Hasil pencarian untuk <b>'+q+'</b>: '+hit+' mata kuliah. <a href="#" onclick="location.reload();return false">Reset</a>';
+  document.getElementById('pager').style.display='none';
+}
+document.getElementById('q').addEventListener('keyup',function(e){ if(e.key==='Enter') doSearch(); });
+</script>
+</body>
+</html>

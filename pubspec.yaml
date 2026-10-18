@@ -1,0 +1,35 @@
+name: mulia_smart_campus
+description: "Smart Campus Universitas Mulia — kurikulum S1 Informatika, web sertifikat per mata kuliah, kompiler daring (C++, JavaScript, PHP, Python), dan repositori GitHub."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # Menampilkan web Biro Akademik + web sertifikat tiap mata kuliah (aset lokal)
+  webview_flutter: ^4.2.0
+  # Menyimpan data sertifikat, link repositori, riwayat eksekusi kode
+  shared_preferences: ^2.3.0
+  # Memanggil API kompiler daring (Piston)
+  http: ^1.2.0
+  # Membuka link GitHub / Play Store di luar aplikasi
+  url_launcher: ^6.3.0
+  # Membuat & mencetak/menyimpan sertifikat PDF
+  pdf: ^3.11.1
+  printing: ^5.13.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/web/
+    - assets/web/matkul/
