@@ -21,3 +21,19 @@
 ## Koneksi internet
 Eksekusi kode melalui Judge0 memerlukan internet.
 Preview HTML/CSS/JavaScript lokal tidak memakai Judge0.
+
+## Membuat APK Android
+
+Jalankan perintah berikut dari folder proyek:
+
+    flutter pub get
+    flutter analyze
+    flutter test
+    flutter build apk --release
+
+APK hasil build berada di:
+
+    build/app/outputs/flutter-apk/app-release.apk
+
+Jangan mengunggah keystore, password signing,
+atau android/key.properties ke repository.
