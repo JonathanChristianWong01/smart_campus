@@ -11,6 +11,8 @@ import 'package:mulia_smart_campus/screens/web_playground_screen.dart';
 import 'package:mulia_smart_campus/services/compiler_service.dart';
 import 'package:mulia_smart_campus/services/storage_service.dart';
 
+String b64(String text) => base64Encode(utf8.encode(text));
+
 void main() {
   test('Teks biasa, offline, dan error tidak menjadi preview', () {
     expect(htmlHasilVisual(berhasil: true, stdout: '123 Halo'), isNull);
@@ -34,12 +36,14 @@ void main() {
       final service = CompilerService(client: MockClient((request) async {
         final body = jsonDecode(request.body) as Map<String, dynamic>;
         expect(body['language_id'], CompilerService.idJudge0(bahasa));
-        expect(body['source_code'], contohKodeVisual(id));
+        expect(utf8.decode(base64Decode(body['source_code'] as String)),
+            contohKodeVisual(id));
+        expect(request.url.queryParameters['base64_encoded'], 'true');
         return http.Response(
             jsonEncode(<String, dynamic>{
               'status': <String, dynamic>{'id': 3, 'description': 'Accepted'},
-              'stdout': '<h1>Visual</h1>',
-              'stderr': 'pesan diagnostik',
+              'stdout': b64('<h1>Visual</h1>'),
+              'stderr': b64('pesan diagnostik'),
             }),
             200);
       }));
@@ -63,11 +67,12 @@ void main() {
           final service = CompilerService(client: MockClient((request) async {
             final body = jsonDecode(request.body) as Map<String, dynamic>;
             expect(body['language_id'], CompilerService.idJudge0(bahasa));
-            kodeTerkirim = body['source_code'] as String;
+            kodeTerkirim = utf8.decode(base64Decode(body['source_code'] as String));
+            expect(utf8.decode(base64Decode(body['stdin'] as String)), '50\n75\n');
             return http.Response(
                 jsonEncode({
                   'status': {'id': 3, 'description': 'Accepted'},
-                  'stdout': '123 teks biasa'
+                  'stdout': b64('123 teks biasa')
                 }),
                 200);
           }));
@@ -86,18 +91,21 @@ void main() {
           await tester.tap(find.widgetWithText(ChoiceChip, bahasa.label));
           await tester.pump();
           final sumber = 'kode khusus $id';
-          await tester.enterText(find.byType(TextField), sumber);
+          await tester.enterText(find.byType(TextField).first, sumber);
           await tester.tap(find.widgetWithText(ChoiceChip, 'HTML'));
           await tester.pump();
           await tester.tap(find.widgetWithText(ChoiceChip, bahasa.label));
           await tester.pump();
           expect(find.text(sumber), findsOneWidget);
+          expect(find.byType(TextField), findsOneWidget);
+          await tester.enterText(find.byType(TextField),
+              '$sumber\n=== INPUT STDIN ===\n50\n75\n');
           final tombol = find.widgetWithText(
               FilledButton, 'Jalankan ${bahasa.label} & Preview');
           await tester.ensureVisible(tombol);
           await tester.tap(tombol);
           await tester.pumpAndSettle();
-          expect(kodeTerkirim, sumber);
+          expect(kodeTerkirim, '$sumber\n');
           expect(find.byType(SelectableText), findsOneWidget);
           expect(tester.widget<SelectableText>(find.byType(SelectableText)).data,
               contains('123 teks biasa'));
@@ -124,8 +132,8 @@ void main() {
                 'id': 6,
                 'description': 'Compilation Error'
               },
-              'stdout': '<h1>Tidak boleh ditampilkan</h1>',
-              'compile_output': 'error',
+              'stdout': b64('<h1>Tidak boleh ditampilkan</h1>'),
+              'compile_output': b64('error'),
             }),
             200,
             headers: {'content-type': 'application/json; charset=utf-8'})));

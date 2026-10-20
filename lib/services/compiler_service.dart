@@ -81,13 +81,14 @@ class CompilerService {
   Future<HasilKompilasi> jalankan({
     required BahasaKompiler bahasa,
     required String kode,
+    String stdin = '',
     Duration timeout = const Duration(seconds: 40),
   }) async {
     final Stopwatch jam = Stopwatch()..start();
     final Map<String, dynamic> body = <String, dynamic>{
       'source_code': base64Encode(utf8.encode(kode)),
       'language_id': idJudge0(bahasa),
-      'stdin': '',
+      'stdin': base64Encode(utf8.encode(stdin)),
     };
 
     try {

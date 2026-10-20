@@ -5,6 +5,7 @@ import '../data/compiler_data.dart';
 import '../data/visual_compiler_data.dart';
 import '../services/compiler_service.dart';
 import '../utils/web_preview_document.dart';
+import '../utils/combined_program_input.dart';
 
 const String contohHtmlWeb = '''<h1>Halo Universitas Mulia</h1>
 <p>Huruf <b>tebal</b>, <i>miring</i>, dan angka <strong>12345</strong>.</p>
@@ -36,9 +37,9 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
     TextEditingController(text: contohHtmlWeb),
     TextEditingController(text: contohCssWeb),
     TextEditingController(text: contohJsWeb),
-    TextEditingController(text: contohKodeVisual('php')),
-    TextEditingController(text: contohKodeVisual('cplusplus')),
-    TextEditingController(text: contohKodeVisual('python')),
+    TextEditingController(text: '${contohKodeVisual('php')}\n\n$penandaInputProgram\n'),
+    TextEditingController(text: '${contohKodeVisual('cplusplus')}\n\n$penandaInputProgram\n'),
+    TextEditingController(text: '${contohKodeVisual('python')}\n\n$penandaInputProgram\n'),
   ];
   static const List<String> _label = <String>[
     'HTML',
@@ -77,7 +78,9 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
       return;
     }
     final int pilihan = _pilihan;
-    final String kode = _editor[pilihan].text;
+    final ProgramDenganInput program =
+    pisahkanProgramInput(_editor[pilihan].text);
+    final String kode = program.kode;
     if (kode.trim().isEmpty) {
       setState(() => _keluaran = 'Kode ${_label[pilihan]} masih kosong.');
       return;
@@ -89,6 +92,7 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
     final HasilKompilasi hasil = await _service.jalankan(
       bahasa: kBahasaKompiler.firstWhere((b) => b.id == _id[pilihan]),
       kode: kode,
+      stdin: program.stdin,
     );
     if (!mounted) return;
     final String? html =
@@ -146,34 +150,62 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
                 ),
             ]),
             const SizedBox(height: 10),
-            TextField(
-              key: ValueKey<int>(_pilihan),
-              controller: _editor[_pilihan],
-              readOnly: _berjalan,
-              onChanged: (_) {
-                if (_keluaran != null) setState(() => _keluaran = null);
-              },
-              minLines: 12,
-              maxLines: 18,
-              keyboardType: TextInputType.multiline,
-              autocorrect: false,
-              enableSuggestions: false,
-              style: const TextStyle(
-                  fontFamily: 'monospace', fontSize: 13, color: Colors.white),
-              decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.navy900,
-                  border: OutlineInputBorder()),
-            ),
-            const SizedBox(height: 12),
-            FilledButton.icon(
-              onPressed: _berjalan ? null : _jalankan,
-              icon: const Icon(Icons.play_arrow),
-              label: Text(_berjalan
-                  ? 'Menjalankan…'
-                  : _pilihan < 3
-                  ? 'Jalankan Preview Web'
-                  : 'Jalankan ${_label[_pilihan]} & Preview'),
+            Container(
+              key: const ValueKey<String>('preview-execution-panel'),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: AppColors.navy800),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(_pilihan >= 3
+                      ? 'Kode ${_label[_pilihan]} + input (satu editor)'
+                      : 'Kode ${_label[_pilihan]}',
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  TextField(
+                    key: ValueKey<int>(_pilihan),
+                    controller: _editor[_pilihan],
+                    readOnly: _berjalan,
+                    onChanged: (_) {
+                      if (_keluaran != null) setState(() => _keluaran = null);
+                    },
+                    minLines: 12,
+                    maxLines: 18,
+                    keyboardType: TextInputType.multiline,
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    style: const TextStyle(
+                        fontFamily: 'monospace', fontSize: 13, color: Colors.white),
+                    decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.navy900,
+                        border: OutlineInputBorder()),
+                  ),
+                  if (_pilihan >= 3) ...<Widget>[
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Satu editor: tulis kode di atas baris === INPUT STDIN ===, '
+                          'lalu input di bawahnya (satu jawaban per baris). '
+                          'Penanda dan input otomatis dipisahkan sebelum eksekusi. '
+                          'Tanpa input? Biarkan bagian bawah kosong.',
+                    ),
+                  ],
+                  const SizedBox(height: 12),
+                  FilledButton.icon(
+                    onPressed: _berjalan ? null : _jalankan,
+                    icon: const Icon(Icons.play_arrow),
+                    label: Text(_berjalan
+                        ? 'Menjalankan…'
+                        : _pilihan < 3
+                        ? 'Jalankan Preview Web'
+                        : 'Jalankan ${_label[_pilihan]} & Preview'),
+                  ),
+                ],
+              ),
             ),
             if (_keluaran != null) ...<Widget>[
               const SizedBox(height: 12),

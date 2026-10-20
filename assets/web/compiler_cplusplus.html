@@ -102,7 +102,7 @@ tr:nth-child(even) td{background:#fafcff}
 <div class="hero" style="padding:24px 16px 52px">
   <h1>Kompiler Daring Smart Campus</h1>
   <p>Tulis, jalankan, dan uji kode <b>C++</b>, <b>JavaScript</b>, <b>PHP</b>, dan <b>Python</b> langsung dari aplikasi.
-  Setiap eksekusi yang berhasil menambah progres sertifikat praktikum Anda.</p>
+  Lanjutkan pembelajaran melalui tautan ke situs resmi Dicoding di bawah.</p>
 </div>
 <div class="wrap" style="margin-top:14px">
   <div class="grid" style="grid-template-columns:1.25fr .75fr;align-items:start">
@@ -127,14 +127,14 @@ tr:nth-child(even) td{background:#fafcff}
         <div style="font-size:11.6px;color:var(--muted);margin-top:6px" id="meta">Kompiler: Judge0 CE (ce.judge0.com) • butuh koneksi internet</div>
       </div>
       <div class="card" style="margin-top:12px;padding:12px">
-        <h4 style="color:var(--navy2);margin-bottom:6px">Sertifikat Praktikum</h4>
-        <div style="font-size:12.6px;color:var(--muted)">Eksekusi berhasil: <b id="prog">0</b> / 5</div>
-        <div style="height:9px;background:#e8eef8;border-radius:99px;margin:8px 0;overflow:hidden"><div id="bar" style="height:100%;width:0;background:linear-gradient(90deg,var(--navy3),var(--gold))"></div></div>
-        <button class="btn sm" onclick="cetakSertifikat()">🎓 Buka Halaman Sertifikat</button>
+        <h4 style="color:var(--navy2);margin-bottom:6px">Belajar di Dicoding</h4>
+        <p style="font-size:12.6px;color:var(--muted);margin-bottom:10px">Lanjutkan belajar pemrograman melalui situs resmi Dicoding.</p>
+        <a class="btn sm" href="https://www.dicoding.com/" rel="external">Buka Dicoding ↗</a>
+        <p style="font-size:11.6px;color:var(--muted);margin-top:10px">Tautan eksternal, bukan integrasi akun. Sertifikat kelas mengikuti ketentuan Dicoding dan tidak terkait jumlah eksekusi di aplikasi ini.</p>
       </div>
       <div class="note" style="margin-top:12px">
         <b>Tips:</b> gunakan kompiler ini untuk praktikum mata kuliah Algoritma dan Pemrograman, Struktur Data,
-        Pemrograman Web, Kecerdasan Buatan, dan lainnya. Semua mata kuliah memiliki link kompiler pada halaman sertifikatnya.
+        Pemrograman Web, Kecerdasan Buatan, dan lainnya. Tautan praktikum hanya muncul pada mata kuliah yang materinya memakai pemrograman.
       </div>
     </div>
   </div>
@@ -199,10 +199,6 @@ document.querySelectorAll('.tab').forEach(function(b){
 });
 function saveLocal(k,v){ try{localStorage.setItem(k,v);}catch(e){} }
 function getLocal(k,d){ try{return localStorage.getItem(k)||d;}catch(e){return d;} }
-function refreshProg(){
-  var n=parseInt(getLocal('mulia_run_ok','0'),10); el('prog').textContent=n;
-  el('bar').style.width=Math.min(100,(n/5)*100)+'%';
-}
 function addHist(lang, status, code){
   try{
     var h=JSON.parse(getLocal('mulia_hist','[]'));
@@ -261,7 +257,6 @@ function run(){
     el('meta').textContent='Kompiler: Judge0 CE • '+spec.label+' '+spec.ver+' • exit code '+(d.run?d.run.code:'-')+' • '+(Date.now()-t0)+' ms';
     setStatus(ok?'Berhasil':'Ada error');
     addHist(cur, ok?'OK':'ERROR', code);
-    if(ok){ saveLocal('mulia_run_ok', String(parseInt(getLocal('mulia_run_ok','0'),10)+1)); refreshProg(); }
   }).catch(function(e){
     el('out').textContent='⚠️ Tidak dapat menghubungi kompiler daring (butuh koneksi internet).\n\n'
       +'Mode demo — keluaran yang diharapkan untuk contoh '+spec.label+':\n--------------------------------------\n'+SAMPLES[cur].out
@@ -271,10 +266,7 @@ function run(){
     addHist(cur,'OFFLINE', code);
   });
 }
-function cetakSertifikat(){
-  window.location.href='matkul/110100.html';
-}
-muatContoh(); refreshProg(); renderHist(JSON.parse(getLocal('mulia_hist','[]')));
+muatContoh(); renderHist(JSON.parse(getLocal('mulia_hist','[]')));
 </script>
 </body>
 </html>

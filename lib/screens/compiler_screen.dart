@@ -10,12 +10,10 @@ import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/asset_webview.dart';
 import '../widgets/common.dart';
-import 'sertifikat_screen.dart';
 import 'web_playground_screen.dart';
 
 /// Kompiler daring: jalankan kode C++, JavaScript, PHP, dan Python
-/// langsung dari aplikasi (API Judge0), lengkap dengan riwayat & progres
-/// sertifikat praktikum.
+/// langsung dari aplikasi (API Judge0), dengan riwayat dan tautan belajar Dicoding.
 class CompilerScreen extends StatefulWidget {
   const CompilerScreen({
     super.key,
@@ -41,6 +39,7 @@ class CompilerScreen extends StatefulWidget {
 class _CompilerScreenState extends State<CompilerScreen> {
   late final CompilerService _service;
   final TextEditingController _kode = TextEditingController();
+  final TextEditingController _input = TextEditingController();
 
   late BahasaKompiler _bahasa;
 
@@ -77,6 +76,7 @@ class _CompilerScreenState extends State<CompilerScreen> {
   @override
   void dispose() {
     _kode.dispose();
+    _input.dispose();
     _service.dispose();
     super.dispose();
   }
@@ -84,6 +84,7 @@ class _CompilerScreenState extends State<CompilerScreen> {
   void _gantiBahasa(BahasaKompiler b) {
     setState(() {
       _bahasa = b;
+      _input.clear();
       _kode.text = b.contohKode;
       _keluaran = 'Bahasa ${b.label} siap. Tekan ▶ Jalankan.';
     });
@@ -110,6 +111,7 @@ class _CompilerScreenState extends State<CompilerScreen> {
     final HasilKompilasi hasil = await _service.jalankan(
       bahasa: _bahasa,
       kode: _kode.text,
+      stdin: _input.text,
     );
 
     await widget.storage.tambahRiwayat(
@@ -124,7 +126,6 @@ class _CompilerScreenState extends State<CompilerScreen> {
         cuplikanKode: _kode.text.split('\n').first,
       ),
     );
-    if (hasil.ok) await widget.storage.tambahEksekusiBerhasil();
 
     if (!mounted) return;
     setState(() {
@@ -136,6 +137,23 @@ class _CompilerScreenState extends State<CompilerScreen> {
     });
   }
 
+  Future<void> _bukaDicoding() async {
+    try {
+      final bool terbuka = await launchUrl(
+        Uri.parse('https://www.dicoding.com/'),
+        mode: LaunchMode.externalApplication,
+      );
+      if (terbuka) return;
+    } catch (_) {
+      // Pesan yang sama untuk kegagalan platform dan browser tidak tersedia.
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text(
+          'Browser tidak dapat dibuka. Kunjungi https://www.dicoding.com/ secara manual.'),
+    ));
+  }
+
   static String _formatWaktu(DateTime t) {
     String dua(int n) => n.toString().padLeft(2, '0');
     return '${dua(t.day)}/${dua(t.month)}/${t.year} ${dua(t.hour)}:${dua(t.minute)}';
@@ -143,7 +161,6 @@ class _CompilerScreenState extends State<CompilerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final int berhasil = widget.storage.jumlahEksekusiBerhasil;
     final List<RiwayatEksekusi> riwayat = widget.storage.riwayat;
 
     // ChoiceChip membutuhkan leluhur Material. Tab Kompiler sudah berada di
@@ -277,6 +294,29 @@ class _CompilerScreenState extends State<CompilerScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 12),
+          const JudulBagian('Input program (stdin)',
+              ikon: Icons.keyboard_outlined),
+          TextField(
+            key: const ValueKey<String>('compiler-stdin'),
+            controller: _input,
+            readOnly: _berjalan,
+            minLines: 3,
+            maxLines: 6,
+            keyboardType: TextInputType.multiline,
+            autocorrect: false,
+            enableSuggestions: false,
+            style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
+            decoration: const InputDecoration(
+              hintText: 'Contoh: 50\n75\n25',
+              border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+              'Isi semua input sebelum menekan Jalankan. Gunakan baris baru sesuai urutan pembacaan cin / input(). Ini bukan terminal interaktif; seluruh input dikirim sekaligus. Saat bahasa diganti, input dikosongkan.'),
           const SizedBox(height: 10),
           Row(
             children: <Widget>[
@@ -343,65 +383,38 @@ class _CompilerScreenState extends State<CompilerScreen> {
             _meta,
             style: const TextStyle(fontSize: 11.2, color: AppColors.muted),
           ),
-          const JudulBagian('Progres Sertifikat Praktikum',
-              ikon: Icons.workspace_premium),
+          const JudulBagian('Belajar di Dicoding', ikon: Icons.school_outlined),
           KartuPutih(
             aksen: AppColors.gold,
             anak: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  '$berhasil dari 10 eksekusi berhasil',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.navy800,
-                  ),
-                ),
+                const Text(
+                    'Lanjutkan belajar pemrograman melalui situs resmi Dicoding.'),
                 const SizedBox(height: 8),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(99),
-                  child: LinearProgressIndicator(
-                    value: (berhasil / 10).clamp(0, 1),
-                    minHeight: 9,
-                    backgroundColor: const Color(0xFFE8EEF8),
-                    valueColor:
-                    const AlwaysStoppedAnimation<Color>(AppColors.gold),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
+                const Text(
+                    'Tautan eksternal, bukan integrasi akun. Sertifikat kelas mengikuti ketentuan Dicoding dan tidak terkait jumlah eksekusi di aplikasi ini.'),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: <Widget>[
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
+                    FilledButton.icon(
+                      key: const ValueKey<String>('buka-dicoding'),
+                      onPressed: _bukaDicoding,
+                      icon: const Icon(Icons.open_in_new, size: 18),
+                      label: const Text('Buka Dicoding'),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute<void>(
                             builder: (_) => const HalamanWeb(
                               aset: 'assets/web/compiler.html',
                               judul: 'Web Kompiler Smart Campus',
                             ),
-                          ),
-                        ),
-                        icon: const Icon(Icons.public, size: 18),
-                        label: const Text('Web Kompiler'),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: FilledButton.icon(
-                        onPressed: widget.konteksMk == null
-                            ? null
-                            : () => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => SertifikatScreen(
-                              mk: widget.konteksMk!,
-                              storage: widget.storage,
-                            ),
-                          ),
-                        ),
-                        icon: const Icon(Icons.workspace_premium, size: 18),
-                        label: const Text('Sertifikat'),
-                      ),
+                          )),
+                      icon: const Icon(Icons.public, size: 18),
+                      label: const Text('Web Kompiler'),
                     ),
                   ],
                 ),
