@@ -10,6 +10,7 @@ import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/asset_webview.dart';
 import '../widgets/common.dart';
+import '../utils/combined_program_input.dart';
 import 'web_playground_screen.dart';
 
 /// Kompiler daring: jalankan kode C++, JavaScript, PHP, dan Python
@@ -39,7 +40,6 @@ class CompilerScreen extends StatefulWidget {
 class _CompilerScreenState extends State<CompilerScreen> {
   late final CompilerService _service;
   final TextEditingController _kode = TextEditingController();
-  final TextEditingController _input = TextEditingController();
 
   late BahasaKompiler _bahasa;
 
@@ -70,13 +70,12 @@ class _CompilerScreenState extends State<CompilerScreen> {
     super.initState();
     _service = widget.service ?? CompilerService();
     _bahasa = widget.bahasaAwal ?? kBahasaKompiler.last;
-    _kode.text = _bahasa.contohKode;
+    _kode.text = '${_bahasa.contohKode}\n\n$penandaInputProgram\n';
   }
 
   @override
   void dispose() {
     _kode.dispose();
-    _input.dispose();
     _service.dispose();
     super.dispose();
   }
@@ -84,21 +83,21 @@ class _CompilerScreenState extends State<CompilerScreen> {
   void _gantiBahasa(BahasaKompiler b) {
     setState(() {
       _bahasa = b;
-      _input.clear();
-      _kode.text = b.contohKode;
+      _kode.text = '${b.contohKode}\n\n$penandaInputProgram\n';
       _keluaran = 'Bahasa ${b.label} siap. Tekan ▶ Jalankan.';
     });
   }
 
   Future<void> _jalankan() async {
-    if (_kode.text.trim().isEmpty) {
+    final ProgramDenganInput program = pisahkanProgramInput(_kode.text);
+    if (program.kode.trim().isEmpty) {
       setState(() => _keluaran = 'Kode masih kosong.');
       return;
     }
     if (_bahasa.id == 'javascript' &&
         RegExp(r'^\s*<(?:!doctype|html|head|body|h[1-6]|div|p|style|button)\b',
             caseSensitive: false)
-            .hasMatch(_kode.text)) {
+            .hasMatch(program.kode)) {
       setState(() => _keluaran =
       'Ini kode HTML, bukan JavaScript Node.js. Gunakan tombol Buka Preview Web di bagian atas, lalu tempel kode di tab HTML.');
       return;
@@ -110,8 +109,8 @@ class _CompilerScreenState extends State<CompilerScreen> {
 
     final HasilKompilasi hasil = await _service.jalankan(
       bahasa: _bahasa,
-      kode: _kode.text,
-      stdin: _input.text,
+      kode: program.kode,
+      stdin: program.stdin,
     );
 
     await widget.storage.tambahRiwayat(
@@ -267,6 +266,7 @@ class _CompilerScreenState extends State<CompilerScreen> {
                 ),
                 const SizedBox(height: 6),
                 TextField(
+                  key: const ValueKey<String>('compiler-editor'),
                   controller: _kode,
                   readOnly: _berjalan,
                   maxLines: 16,
@@ -295,28 +295,13 @@ class _CompilerScreenState extends State<CompilerScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          const JudulBagian('Input program (stdin)',
-              ikon: Icons.keyboard_outlined),
-          TextField(
-            key: const ValueKey<String>('compiler-stdin'),
-            controller: _input,
-            readOnly: _berjalan,
-            minLines: 3,
-            maxLines: 6,
-            keyboardType: TextInputType.multiline,
-            autocorrect: false,
-            enableSuggestions: false,
-            style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
-            decoration: const InputDecoration(
-              hintText: 'Contoh: 50\n75\n25',
-              border: OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 6),
           const Text(
-              'Isi semua input sebelum menekan Jalankan. Gunakan baris baru sesuai urutan pembacaan cin / input(). Ini bukan terminal interaktif; seluruh input dikirim sekaligus. Saat bahasa diganti, input dikosongkan.'),
+              'Kode dan input dalam satu editor. Tulis kode di atas baris '
+                  '=== INPUT STDIN ===, lalu semua input di bawahnya '
+                  '(satu jawaban per baris). Tekan Jalankan sekali untuk mengirim '
+                  'keduanya. Tanpa input? Biarkan bagian bawah kosong. '
+                  'Ini bukan terminal interaktif. Saat bahasa diganti atau contoh '
+                  'dimuat ulang, editor kembali ke contoh dan input kosong.'),
           const SizedBox(height: 10),
           Row(
             children: <Widget>[
@@ -560,6 +545,10 @@ class _AutoIndentFormatter extends TextInputFormatter {
     if (baru.text.length != lama.text.length + 1) return baru;
     final int pos = baru.selection.baseOffset;
     if (pos <= 0 || baru.text[pos - 1] != '\n') return baru;
+
+    if (baru.text.substring(0, pos).contains(penandaInputProgram)) {
+      return baru;
+    }
 
     final List<String> baris = baru.text.substring(0, pos - 1).split('\n');
     final String barisSebelumnya = baris.isEmpty ? '' : baris.last;

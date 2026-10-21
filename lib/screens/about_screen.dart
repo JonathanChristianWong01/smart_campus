@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../data/compiler_data.dart';
 import '../data/curriculum_data.dart';
@@ -11,6 +12,25 @@ import '../widgets/common.dart';
 /// dan panduan singkat penggunaan.
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
+
+  Future<void> _bukaDicoding(BuildContext context) async {
+    bool terbuka = false;
+    try {
+      terbuka = await launchUrl(
+        Uri.parse('https://www.dicoding.com/'),
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (_) {
+      terbuka = false;
+    }
+    if (!terbuka && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(
+          'Browser tidak dapat dibuka. Kunjungi https://www.dicoding.com/ secara manual.',
+        )),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +102,7 @@ class AboutScreen extends StatelessWidget {
               const SizedBox(height: 14),
               const Text(
                 'Aplikasi akademik $kUniversitas yang menghimpun kurikulum $kProgramStudi '
-                    '($kKurikulumTahun), web sertifikat untuk setiap mata kuliah, kompiler daring '
+                    '($kKurikulumTahun), tautan belajar di Dicoding, kompiler daring '
                     'C++/JavaScript/PHP/Python, serta repositori GitHub pendukung tugas dan praktikum.',
                 style: TextStyle(
                     color: Color(0xFFC8D8EE), fontSize: 12.3, height: 1.6),
@@ -100,8 +120,8 @@ class AboutScreen extends StatelessWidget {
           <String>['Total SKS', '$totalSks SKS (hasil penjumlahan daftar MK)'],
           <String>['Semester', '${kKurikulum.length} semester'],
           <String>[
-            'Halaman web MK',
-            '${kSemuaMataKuliah.length} halaman sertifikat'
+            'Belajar daring',
+            'Dicoding (situs eksternal, membutuhkan internet)'
           ],
         ]),
         const SizedBox(height: 12),
@@ -224,8 +244,8 @@ class AboutScreen extends StatelessWidget {
           <String>['Aplikasi', 'Flutter (Dart) — Android SDK 21+'],
           <String>['Web kampus', 'WebView memuat aset lokal (offline-ready)'],
           <String>[
-            'Sertifikat',
-            'Web sertifikat per MK + ekspor PDF (paket pdf & printing)'
+            'Dicoding',
+            'Kelas dan jalur belajar di https://www.dicoding.com/ (browser eksternal)'
           ],
           <String>[
             'Kompiler',
@@ -233,26 +253,39 @@ class AboutScreen extends StatelessWidget {
           ],
           <String>[
             'Preview Web',
-            'HTML / CSS / JavaScript dalam Android WebView'
+            'HTML/CSS/JavaScript lokal; PHP/C++/Python melalui Judge0 dan preview hasil HTML'
           ],
           <String>[
             'Penyimpanan',
-            'SharedPreferences (data sertifikat, riwayat, link repo)'
+            'SharedPreferences (riwayat eksekusi dan preferensi/link repo)'
           ],
           <String>[
             'Repositori',
-            'url_launcher ke GitHub (cari & buat repo per MK)'
+            'Pencarian akun/repo publik via GitHub API, serta tautan ke GitHub'
           ],
         ]),
+        const SizedBox(height: 10),
+        FilledButton.icon(
+          key: const ValueKey<String>('info-buka-dicoding'),
+          onPressed: () => _bukaDicoding(context),
+          icon: const Icon(Icons.open_in_new, size: 18),
+          label: const Text('Buka Dicoding'),
+        ),
+        const SizedBox(height: 6),
+        const Text(
+          'Dicoding adalah situs eksternal yang memerlukan internet. '
+              'Aplikasi ini tidak menghubungkan akun atau menerbitkan sertifikat Dicoding.',
+          style: TextStyle(fontSize: 12.4, color: AppColors.muted, height: 1.5),
+        ),
         const JudulBagian('Panduan Singkat', ikon: Icons.help_outline),
         const _Langkah(1,
             'Pilih menu Kurikulum, buka salah satu mata kuliah pada semester yang diinginkan.'),
         const _Langkah(2,
             'Baca deskripsi, CPL/CPMK, dan materi; lalu latih pada menu Praktik (kompiler).'),
         const _Langkah(3,
-            'Buka Web Sertifikat atau Sertifikat PDF untuk mengisi data dan mencetak sertifikat.'),
+            'Tekan Buka Dicoding untuk mengakses situs belajar resmi. Tidak ada integrasi akun atau penerbitan sertifikat Dicoding di aplikasi.'),
         const _Langkah(4,
-            'Buka menu Repositori untuk membuat/menyimpan link GitHub tugas mata kuliah.'),
+            'Buka menu Repositori untuk mencari akun dan repositori publik GitHub serta membaca panduan push dan update.'),
         const _Langkah(5,
             'Bagikan aplikasi ke teman satu prodi dan unggah proyek ke GitHub Anda.'),
         const JudulBagian('Pranala Cepat', ikon: Icons.link),

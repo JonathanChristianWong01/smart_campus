@@ -390,12 +390,16 @@ class _KartuMkRingkas extends StatelessWidget {
               const Icon(Icons.arrow_forward,
                   size: 14, color: AppColors.navy600),
               const SizedBox(width: 6),
-              Text(
-                'Buka web sertifikat ${mk.kode}.html',
-                style: const TextStyle(
-                  fontSize: 11.6,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.navy600,
+              Expanded(
+                child: Text(
+                  'Buka web sertifikat ${mk.kode}.html',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 11.6,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.navy600,
+                  ),
                 ),
               ),
             ],

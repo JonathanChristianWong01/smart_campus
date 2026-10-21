@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../data/curriculum_data.dart';
 import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
-import 'home_shell.dart';
+import 'login_gate.dart';
 
-/// Layar pembuka: logo, identitas kampus, lalu lanjut ke [HomeShell].
+/// Layar pembuka: logo, identitas kampus, lalu lanjut ke [LoginGate].
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, required this.storage});
 
@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
-        builder: (BuildContext c) => HomeShell(storage: widget.storage),
+        builder: (BuildContext c) => LoginGate(storage: widget.storage),
       ),
     );
   }

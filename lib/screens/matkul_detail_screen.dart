@@ -12,10 +12,9 @@ import '../theme/app_theme.dart';
 import '../widgets/asset_webview.dart';
 import '../widgets/common.dart';
 import 'compiler_screen.dart';
-import 'sertifikat_screen.dart';
 
 /// Detail mata kuliah: deskripsi, CPL/CPMK, materi, praktikum kompiler,
-/// web sertifikat, dan repositori GitHub.
+/// tautan belajar Dicoding, dan repositori GitHub.
 class DetailMataKuliahScreen extends StatelessWidget {
   const DetailMataKuliahScreen({
     super.key,
@@ -25,6 +24,25 @@ class DetailMataKuliahScreen extends StatelessWidget {
 
   final MataKuliah mk;
   final StorageService storage;
+
+  Future<void> _bukaDicoding(BuildContext context) async {
+    bool terbuka = false;
+    try {
+      terbuka = await launchUrl(
+        Uri.parse('https://www.dicoding.com/'),
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (_) {
+      terbuka = false;
+    }
+    if (!terbuka && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(
+          'Browser tidak dapat dibuka. Kunjungi https://www.dicoding.com/ secara manual.',
+        )),
+      );
+    }
+  }
 
   String _labelBahasa(String id) {
     switch (id) {
@@ -91,8 +109,6 @@ class DetailMataKuliahScreen extends StatelessWidget {
                         (kendala.maxWidth * 0.78).clamp(120.0, 340.0),
                         maksBaris: 2,
                       ),
-                      if (storage.sertifikatTerisi(mk))
-                        const LabelChip.hijau('Sertifikat tersimpan'),
                     ],
                   ),
                 ),
@@ -131,7 +147,6 @@ class DetailMataKuliahScreen extends StatelessWidget {
                     'Perangkat',
                     mk.perangkat.isEmpty ? '—' : mk.perangkat
                   ],
-                  <String>['Berkas web', 'assets/web/matkul/${mk.berkasWeb}'],
                   <String>['Repo saran', RepoService.namaRepo(mk)],
                 ]),
                 const JudulBagian('Capaian Pembelajaran Lulusan (CPL)',
@@ -190,64 +205,37 @@ class DetailMataKuliahScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   _DaftarVideo(bahasa: bahasaMk(mk.kode)),
                 ],
-                const JudulBagian('Web Sertifikat & Sertifikat PDF',
-                    ikon: Icons.workspace_premium),
-                KartuPutih(
-                  aksen: AppColors.gold,
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => HalamanWeb(
-                        aset: mk.asetWebSertifikat,
-                        judul: 'Web Sertifikat ${mk.kode}',
-                      ),
-                    ),
-                  ),
-                  anak: const Row(
-                    children: <Widget>[
-                      Icon(Icons.open_in_new, color: AppColors.navy700),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'Buka halaman web bertema sertifikat mata kuliah\n'
-                              '(CPL, CPMK, materi, formulir & cetak sertifikat)',
-                          style: TextStyle(fontSize: 12.4, height: 1.5),
-                        ),
-                      ),
-                      Icon(Icons.chevron_right),
-                    ],
-                  ),
+                const JudulBagian('Belajar di Dicoding',
+                    ikon: Icons.school_outlined),
+                const Text(
+                  'Akses kelas dan jalur belajar di situs resmi Dicoding. '
+                      'Tautan ini membuka browser; tidak menghubungkan akun '
+                      'atau menerbitkan sertifikat dari aplikasi.',
+                  style: TextStyle(
+                      fontSize: 12.4, color: AppColors.muted, height: 1.5),
                 ),
                 const SizedBox(height: 10),
-                Row(
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
                   children: <Widget>[
-                    Expanded(
-                      child: FilledButton.icon(
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => SertifikatScreen(
-                              mk: mk,
-                              storage: storage,
-                            ),
-                          ),
-                        ),
-                        icon: const Icon(Icons.picture_as_pdf, size: 18),
-                        label: const Text('Sertifikat PDF'),
-                      ),
+                    FilledButton.icon(
+                      key: const ValueKey<String>('detail-buka-dicoding'),
+                      onPressed: () => _bukaDicoding(context),
+                      icon: const Icon(Icons.open_in_new, size: 18),
+                      label: const Text('Buka Dicoding'),
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => const HalamanWeb(
-                              aset: 'assets/web/compiler.html',
-                              judul: 'Kompiler Daring',
-                            ),
+                    OutlinedButton.icon(
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const HalamanWeb(
+                            aset: 'assets/web/compiler.html',
+                            judul: 'Kompiler Daring',
                           ),
                         ),
-                        icon: const Icon(Icons.code, size: 18),
-                        label: const Text('Web Kompiler'),
                       ),
+                      icon: const Icon(Icons.code, size: 18),
+                      label: const Text('Web Kompiler'),
                     ),
                   ],
                 ),

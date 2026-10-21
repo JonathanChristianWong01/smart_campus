@@ -13,7 +13,8 @@ import 'package:mulia_smart_campus/services/storage_service.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('Kurikulum berisi 8 semester, 58 mata kuliah, dan tiap MK punya data lengkap',
+  test(
+      'Kurikulum berisi 8 semester, 58 mata kuliah, dan tiap MK punya data lengkap',
           () {
         expect(kKurikulum.length, 8);
         expect(kSemuaMataKuliah.length, 58);
@@ -37,7 +38,7 @@ void main() {
     expect(RepoService.urlCari(mk), contains('github.com/search'));
   });
 
-  testWidgets('Splash tampil lalu Beranda tampil', (WidgetTester tester) async {
+  testWidgets('Splash tampil lalu wajib login', (WidgetTester tester) async {
     SharedPreferences.setMockInitialValues(<String, Object>{});
     final StorageService storage = await StorageService.buka();
 
@@ -48,7 +49,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 1700));
     await tester.pump(const Duration(milliseconds: 400));
 
-    expect(find.textContaining('Biro Akademik'), findsWidgets);
-    expect(find.text('Beranda'), findsWidgets);
+    expect(find.text('Masuk ke Smart Campus'), findsOneWidget);
+    expect(find.text('Beranda'), findsNothing);
   });
 }

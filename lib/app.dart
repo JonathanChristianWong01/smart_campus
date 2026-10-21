@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'data/curriculum_data.dart';
-import 'screens/home_shell.dart';
+import 'screens/login_gate.dart';
 import 'screens/splash_screen.dart';
 import 'services/storage_service.dart';
 import 'theme/app_theme.dart';
@@ -20,7 +20,7 @@ class SmartCampusApp extends StatelessWidget {
       theme: AppTheme.build(),
       home: SplashScreen(storage: storage),
       routes: <String, WidgetBuilder>{
-        '/beranda': (BuildContext c) => HomeShell(storage: storage),
+        '/beranda': (BuildContext c) => LoginGate(storage: storage),
       },
     );
   }
