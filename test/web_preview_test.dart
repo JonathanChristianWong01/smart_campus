@@ -35,11 +35,16 @@ void main() {
         addTearDown(tester.view.resetPhysicalSize);
         addTearDown(tester.view.resetDevicePixelRatio);
         await tester.pumpWidget(const MaterialApp(home: WebPlaygroundScreen()));
+        expect(find.byType(ChoiceChip), findsNWidgets(4));
+        expect(find.widgetWithText(ChoiceChip, 'HTML'), findsNothing);
+        expect(find.widgetWithText(ChoiceChip, 'CSS'), findsNothing);
+        expect(tester.widget<TextField>(find.byType(TextField)).controller!.text, contains('<style>'));
+        expect(tester.widget<TextField>(find.byType(TextField)).controller!.text, contains('<script>'));
         await tester.enterText(find.byType(TextField), '<b>Jonathan 123</b>');
-        await tester.tap(find.widgetWithText(ChoiceChip, 'CSS'));
+        await tester.tap(find.widgetWithText(ChoiceChip, 'PHP'));
         await tester.pump();
         expect(find.byType(TextField), findsOneWidget);
-        await tester.tap(find.widgetWithText(ChoiceChip, 'HTML'));
+        await tester.tap(find.widgetWithText(ChoiceChip, 'JavaScript'));
         await tester.pump();
         expect(find.text('<b>Jonathan 123</b>'), findsOneWidget);
         expect(tester.takeException(), isNull);

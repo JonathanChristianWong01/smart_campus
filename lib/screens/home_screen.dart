@@ -1,3 +1,5 @@
+import '../widgets/baak_live_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
 import '../data/curriculum_data.dart';
@@ -25,33 +27,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _cari = TextEditingController();
   List<MataKuliah> _hasil = <MataKuliah>[];
-
-  static const List<List<String>> _info = <List<String>>[
-    <String>[
-      'Sosialisasi MSIB Batch 7: Kiat Sukses Program Merdeka Belajar Kampus Merdeka',
-      'Untuk meningkatkan minat mahasiswa dalam program MBKM Kampus Merdeka, pada tanggal 31 Mei 2024 dilaksanakan sosialisasi program Magang dan Studi Independen Bersertifikat.',
-    ],
-    <String>[
-      'Info Akademik Genap 2023/2024',
-      'Dear mahasiswa Universitas Mulia, kalender Akademik Tahun 2023/2024 Genap sudah diterbitkan. Harap diperhatikan hal-hal penting terkait pengisian KRS dan jadwal ujian.',
-    ],
-    <String>[
-      'Pemberitahuan Akademik Genap 2021/2022',
-      'Terkait Kalender Akademik Tahun 2021/2022 Genap, mahasiswa diimbau memeriksa jadwal, batas pembayaran, dan tenggat pengisian KRS pada sistem akademik.',
-    ],
-    <String>[
-      'Login Email Mahasiswa',
-      'Login email students Universitas Mulia adalah fasilitas yang digunakan mahasiswa untuk mengakses layanan Google for Education, di antaranya Classroom, Drive, dan Meet.',
-    ],
-    <String>[
-      'Panduan KRS Semester Antara',
-      'Langkah awal adalah login pada website sistem informasi akademik Universitas Mulia (SIMA). Apabila login tidak berhasil, silakan menghubungi operator prodi.',
-    ],
-    <String>[
-      'Sertifikat Kompetensi Mata Kuliah',
-      'Setiap mata kuliah pada Smart Campus memiliki halaman web bertema sertifikat: baca CPL, CPMK, materi praktikum, lalu unduh sertifikat capaian dalam format PDF.',
-    ],
-  ];
 
   @override
   void dispose() {
@@ -91,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         HeroHeader(
           judul: 'Biro Akademik\n$kUniversitas',
           subjudul:
-          'Pantau informasi terbaru akademik, kurikulum $kProgramStudi, sertifikat capaian mata kuliah, '
+          'Pantau informasi terbaru akademik, kurikulum $kProgramStudi, tautan belajar Dicoding, '
               'kompiler daring (C++, JavaScript, PHP, Python), serta repositori GitHub dalam satu aplikasi.',
           anak: TextField(
             controller: _cari,
@@ -174,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: _Layanan(
                         ikon: Icons.hub,
                         judul: 'Repositori',
-                        keterangan: 'Link GitHub per MK',
+                        keterangan: 'Cari akun/repo GitHub',
                         onTap: () => widget.onGantiTab(3),
                       ),
                     ),
@@ -196,41 +171,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
+                _Layanan(
+                  ikon: Icons.school,
+                  judul: 'Dicoding',
+                  keterangan: 'Buka platform belajar Dicoding',
+                  onTap: () async {
+                    bool ok = false;
+                    try {
+                      ok = await launchUrl(Uri.parse('https://www.dicoding.com/'), mode: LaunchMode.externalApplication);
+                    } catch (_) { ok = false; }
+                    if (!context.mounted || ok) return;
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tidak dapat membuka Dicoding. Buka https://www.dicoding.com/ di browser.')));
+                  },
+                ),
                 const JudulBagian('Info Terbaru', ikon: Icons.campaign),
-                for (final List<String> n in _info) ...<Widget>[
-                  KartuPutih(
-                    aksen: AppColors.gold,
-                    anak: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const LabelChip.emas('Info Terbaru'),
-                        const SizedBox(height: 8),
-                        Text(
-                          n[0],
-                          style: const TextStyle(
-                            fontSize: 13.6,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.navy800,
-                            height: 1.35,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          n[1],
-                          style: const TextStyle(
-                            fontSize: 12.3,
-                            color: AppColors.muted,
-                            height: 1.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                ],
+                const BaakLiveInfo(),
                 const JudulBagian('Mata Kuliah Unggulan', ikon: Icons.star),
                 const Text(
-                  'Mata kuliah inti yang dilengkapi halaman sertifikat, praktikum kompiler, dan repositori GitHub.',
+                  'Mata kuliah inti yang dilengkapi detail pembelajaran, praktikum kompiler, dan repositori GitHub.',
                   style: TextStyle(fontSize: 12.3, color: AppColors.muted),
                 ),
                 const SizedBox(height: 10),
@@ -363,8 +322,6 @@ class _KartuMkRingkas extends StatelessWidget {
               LabelChip(mk.kode),
               LabelChip.emas('Semester ${mk.semester}'),
               LabelChip.hijau('${mk.sks} SKS'),
-              if (storage.sertifikatTerisi(mk))
-                const LabelChip.hijau('Sertifikat tersimpan'),
             ],
           ),
           const SizedBox(height: 8),
@@ -392,7 +349,7 @@ class _KartuMkRingkas extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  'Buka web sertifikat ${mk.kode}.html',
+                  'Lihat detail mata kuliah ${mk.kode}',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.jonathan.smart_campus"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

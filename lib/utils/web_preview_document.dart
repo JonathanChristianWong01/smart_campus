@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 /// Kode pengguna diisolasi dalam iframe tanpa akses origin/bridge aplikasi.
-String buatDokumenPreview(String html, String css, String javascript) {
-  final String dokumen = '''<!doctype html><html><head><meta charset="UTF-8">
+String buatDokumenPreview(String html, String css, String javascript,
+    {bool dokumenLengkap = false}) {
+  final String dokumen = dokumenLengkap ? html : '''<!doctype html><html><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head><body>$html</body></html>''';
   // DOM API menghindari penutupan tag style/script oleh isi editor.

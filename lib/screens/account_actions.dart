@@ -33,8 +33,8 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
       setState(() => _error = 'Username 3–40 karakter tanpa spasi.');
       return;
     }
-    if (_password.text.length < 12 || _password.text.length > 128) {
-      setState(() => _error = 'Password harus 12–128 karakter.');
+    if (_password.text.length < 8 || _password.text.length > 128) {
+      setState(() => _error = 'Password harus 8–128 karakter.');
       return;
     }
     if (_password.text != _confirm.text) {
@@ -143,7 +143,7 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
                       enableSuggestions: false,
                       maxLength: 128,
                       decoration: const InputDecoration(
-                          labelText: 'Password (minimal 12 karakter)',
+                          labelText: 'Password (minimal 8 karakter)',
                           border: OutlineInputBorder())),
                   const SizedBox(height: 10),
                   TextField(

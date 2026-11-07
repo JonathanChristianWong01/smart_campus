@@ -22,6 +22,24 @@ const String contohJsWeb =
   document.getElementById('hasil').textContent = 'Berhasil! JavaScript berjalan di Android.';
 });''';
 
+const String contohDokumenWeb = '''<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview Smart Campus</title>
+<style>
+$contohCssWeb
+</style>
+</head>
+<body>
+$contohHtmlWeb
+<script>
+$contohJsWeb
+</script>
+</body>
+</html>''';
+
 /// Editor web terpisah dari eksekusi Node.js/Judge0.
 class WebPlaygroundScreen extends StatefulWidget {
   const WebPlaygroundScreen({super.key, this.service});
@@ -34,24 +52,18 @@ class WebPlaygroundScreen extends StatefulWidget {
 
 class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
   final List<TextEditingController> _editor = <TextEditingController>[
-    TextEditingController(text: contohHtmlWeb),
-    TextEditingController(text: contohCssWeb),
-    TextEditingController(text: contohJsWeb),
+    TextEditingController(text: contohDokumenWeb),
     TextEditingController(text: '${contohKodeVisual('php')}\n\n$penandaInputProgram\n'),
     TextEditingController(text: '${contohKodeVisual('cplusplus')}\n\n$penandaInputProgram\n'),
     TextEditingController(text: '${contohKodeVisual('python')}\n\n$penandaInputProgram\n'),
   ];
   static const List<String> _label = <String>[
-    'HTML',
-    'CSS',
     'JavaScript',
     'PHP',
     'C++',
     'Python'
   ];
   static const List<String> _id = <String>[
-    '',
-    '',
     '',
     'php',
     'cplusplus',
@@ -69,11 +81,11 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
 
   Future<void> _jalankan() async {
     FocusScope.of(context).unfocus();
-    if (_pilihan < 3) {
+    if (_pilihan == 0) {
       Navigator.of(context).push(MaterialPageRoute<void>(
         builder: (_) => WebPreviewScreen(
             dokumen: buatDokumenPreview(
-                _editor[0].text, _editor[1].text, _editor[2].text)),
+                _editor[0].text, '', '', dokumenLengkap: true)),
       ));
       return;
     }
@@ -134,7 +146,7 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
                     color: AppColors.navy800)),
             const SizedBox(height: 8),
             const Text(
-                'Pilih HTML/CSS/JavaScript untuk desain web lokal, atau PHP/C++/Python untuk menjalankan kode yang menghasilkan HTML melalui internet.'),
+                'Pilih JavaScript untuk menulis HTML, CSS, dan JavaScript dalam satu editor. PHP, C++, dan Python dijalankan melalui internet untuk menghasilkan HTML.'),
             const SizedBox(height: 12),
             Wrap(spacing: 8, runSpacing: 8, children: <Widget>[
               for (int i = 0; i < _label.length; i++)
@@ -161,13 +173,13 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text(_pilihan >= 3
+                  Text(_pilihan > 0
                       ? 'Kode ${_label[_pilihan]} + input (satu editor)'
-                      : 'Kode ${_label[_pilihan]}',
+                      : 'JavaScript + HTML + CSS (satu editor)',
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   TextField(
-                    key: ValueKey<int>(_pilihan),
+                    key: ValueKey<int>(_pilihan + 2),
                     controller: _editor[_pilihan],
                     readOnly: _berjalan,
                     onChanged: (_) {
@@ -185,7 +197,7 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
                         fillColor: AppColors.navy900,
                         border: OutlineInputBorder()),
                   ),
-                  if (_pilihan >= 3) ...<Widget>[
+                  if (_pilihan > 0) ...<Widget>[
                     const SizedBox(height: 8),
                     const Text(
                       'Satu editor: tulis kode di atas baris === INPUT STDIN ===, '
@@ -200,7 +212,7 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
                     icon: const Icon(Icons.play_arrow),
                     label: Text(_berjalan
                         ? 'Menjalankan…'
-                        : _pilihan < 3
+                        : _pilihan == 0
                         ? 'Jalankan Preview Web'
                         : 'Jalankan ${_label[_pilihan]} & Preview'),
                   ),
@@ -216,9 +228,9 @@ class _WebPlaygroundScreenState extends State<WebPlaygroundScreen> {
                   const TextStyle(fontFamily: 'monospace', fontSize: 12)),
             ],
             const SizedBox(height: 10),
-            Text(_pilihan < 3
-                ? 'HTML, CSS, dan JavaScript digabung saat dijalankan. Tidak membutuhkan Judge0.'
-                : '${_label[_pilihan]} berjalan di Judge0 (butuh internet). Cetak HTML/CSS dengan echo, cout, atau print. Hasil HTML dibuka sebagai preview; teks biasa dan error tampil di halaman ini. Tab HTML/CSS/JavaScript tidak digabung ke hasil program.'),
+            Text(_pilihan == 0
+                ? 'Satu dokumen: tulis HTML, CSS di dalam <style>, dan JavaScript di dalam <script>. Preview berjalan lokal tanpa Judge0.'
+                : '${_label[_pilihan]} berjalan di Judge0 (butuh internet). Cetak HTML/CSS dengan echo, cout, atau print. Hasil HTML dibuka sebagai preview; teks biasa dan error tampil di halaman ini. Dokumen JavaScript tidak digabung ke hasil program.'),
             const SizedBox(height: 10),
             const Text(
                 'Gunakan tombol kembali untuk mengedit; jalankan lagi untuk memperbarui preview. Kode tetap ada saat kembali dari preview, tetapi belum disimpan permanen ketika halaman editor ditutup.'),

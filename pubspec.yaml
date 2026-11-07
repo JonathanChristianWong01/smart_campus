@@ -24,6 +24,11 @@ dependencies:
   # Utilitas dokumen PDF; dipertahankan untuk kompatibilitas source yang masih mengimpor
   pdf: ^3.11.1
   printing: ^5.13.2
+  file_picker: 10.3.10
+  image_picker: 1.1.2
+  record: 6.1.2
+  path_provider: 2.1.5
+  open_filex: 5.0.0
 
 dev_dependencies:
   flutter_test:

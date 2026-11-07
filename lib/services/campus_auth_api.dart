@@ -69,8 +69,8 @@ class CampusAuthApi {
   }
 
   void _password(String password) {
-    if (password.length < 12 || password.length > 128) {
-      throw Exception('Password harus 12–128 karakter.');
+    if (password.length < 8 || password.length > 128) {
+      throw Exception('Password harus 8–128 karakter.');
     }
   }
 

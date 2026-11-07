@@ -11,6 +11,9 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+backup_*/
+*.backup_*
+hasil_dicoding.txt
 
 # IntelliJ related
 *.iml

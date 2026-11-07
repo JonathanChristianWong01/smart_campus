@@ -79,8 +79,6 @@ void main() {
           await tester
               .pumpWidget(MaterialApp(home: WebPlaygroundScreen(service: service)));
           for (final label in [
-            'HTML',
-            'CSS',
             'JavaScript',
             'PHP',
             'C++',
@@ -92,7 +90,7 @@ void main() {
           await tester.pump();
           final sumber = 'kode khusus $id';
           await tester.enterText(find.byType(TextField).first, sumber);
-          await tester.tap(find.widgetWithText(ChoiceChip, 'HTML'));
+          await tester.tap(find.widgetWithText(ChoiceChip, 'JavaScript'));
           await tester.pump();
           await tester.tap(find.widgetWithText(ChoiceChip, bahasa.label));
           await tester.pump();
